@@ -1,0 +1,43 @@
+{
+    "name": "gregorysouzasilva/livewire-crud",
+    "description": ":package_description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gregory Souza Silva",
+            "email": "author@email.com",
+            "homepage": "http://author.com"
+        }
+    ],
+    "homepage": "https://github.com/gregorysouzasilva/livewire-crud",
+    "keywords": ["Laravel", "LivewireCrud"],
+    "require": {
+        "laravel/framework": "^8.12",
+        "livewire/livewire": "^2.8",
+        "spatie/laravel-permission": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gregorysouzasilva\\LivewireCrud\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gregorysouzasilva\\LivewireCrud\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gregorysouzasilva\\LivewireCrud\\LivewireCrudServiceProvider"
+            ],
+            "aliases": {
+                "LivewireCrud": "Gregorysouzasilva\\LivewireCrud\\Facades\\LivewireCrud"
+            }
+        }
+    }
+}

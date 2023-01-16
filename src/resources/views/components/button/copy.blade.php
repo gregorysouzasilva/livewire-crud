@@ -1,0 +1,1 @@
+<button type="button" class="copy-button btn btn-sm" onclick="copyElemById('{{$id}}')"><i class="bi bi-files"></i></button>

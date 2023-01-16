@@ -1,0 +1,222 @@
+<?php
+
+namespace Gregorysouzasilva\LivewireCrud\Traits;
+
+use Carbon\Carbon;
+use File;
+use Illuminate\Support\Facades\Storage;
+
+trait ModelActionsTrait {
+
+    protected $separator;
+
+    public $rules = [
+        'client' => 'nullable',
+    ];
+
+    public function create()
+    {
+        $this->clearForm();
+        $this->model = new $this->modelClass;
+        if (method_exists($this, 'loadDefaultCreateData')) {
+            $this->loadDefaultCreateData();
+        }
+        if (empty($this->useModal)) {
+            $this->showForm(true);
+        } else {
+            $this->openModalPopover('create');
+        }
+        $this->action = 'create';
+    }
+
+    public function store()
+    {
+        $this->validate();
+
+        // upload file just for one file and field.
+        foreach ($this->files ?? [] as $field => $bucket) {
+            $this->{$field}[0] = $this->{$field}[0]->store($bucket, $bucket);
+            $this->model->{$field} = $this->{$field}[0];
+        }
+        $this->model->save();
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',  
+            'message' => $this->modelId ? 'Record updated.' : 'Record created.',
+        ]);
+
+        if (empty($this->useModal)) {
+            $this->showForm(false);
+        } else {
+            $this->closeModalPopover();
+        }
+        $this->clearForm();
+        $this->model = new $this->modelClass;
+    }
+
+    public function edit($id) {
+        $this->clearForm();
+        $this->model = $this->modelClass::when(!empty($this->client->id), function ($query) {
+            $query->where('client_id', $this->client->id);
+        })->findOrFail($id);
+        $this->modelId = $this->model->getKey();
+        $this->routeParams['uuid'] = $this->model->uuid;
+
+        if (empty($this->useModal)) {
+            $this->showForm(true);
+        } else {
+            $this->openModalPopover('create');
+        }
+        $this->action = $this->modelId;
+    }
+
+    public function duplicate($id) {
+        $this->clearForm();
+        $model = $this->modelClass::when($this->client, function ($query) {
+            $query->where('client_id', $this->client->id);
+        })->findOrFail($id)->toArray();
+
+        unset($model['id']);
+        unset($model['uuid']);
+        $this->model = $this->modelClass::create($model);
+        $this->modelId = $this->model->getKey();
+        if (empty($this->useModal)) {
+            $this->showForm(true);
+        } else {
+            $this->openModalPopover('create');
+        }
+    }
+
+    public function deleteConfirm($id) {
+         $this->dispatchBrowserEvent('swal:confirmModel', [
+            'type' => 'warning',
+            'title' => 'Are you sure?',
+            'text' => 'you are about to delete this record',
+            'id' => $id,
+            'method' => 'delete',
+        ]);
+    }
+    
+    public function delete($id)
+    {
+        $this->model = $this->modelClass::when($this->client, function ($query) {
+            $query->where('client_id', $this->client->id);
+        })->findOrFail($id);
+        if (method_exists($this->model, 'hasFile') && $this->model->hasFile()) {
+            // Delete file from storage
+            $storage = explode('/', $this->model->file);
+            $resp = Storage::disk($storage[0])->delete($this->model->file);
+        }
+        $this->model->delete();
+
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',  
+            'message' => 'Record deleted.',
+        ]);
+        
+        $this->clearForm();
+    }
+
+    public function confirmComplete($id) {
+        $this->dispatchBrowserEvent('swal:confirm', [
+           'type' => 'warning',
+           'title' => 'Are you sure you want to complete?',
+           'text' => 'Complete action will block ' . $id . ' from further editing for this person.',
+           'data' => [
+               'method' => 'onPageComplete',
+                'id' => $id,
+           ]
+       ]);
+   }
+
+   public function onPageComplete($data) {
+        $subType = $data['id'];
+        $this->contact->statesRelation()->create([
+            'stateble_type' => 'Member',
+            'sub_type' => $subType,
+            'user_id' => auth()->user()->id,
+            'status' => 'completed',
+        ]);
+   }
+
+   public function confirmReopen($id) {
+        $this->dispatchBrowserEvent('swal:confirm', [
+            'type' => 'warning',
+            'title' => 'Are you sure you want to reopen?',
+            'text' => 'Reopen will unlock ' . $id . ' for client users editing for this person.',
+            'data' => [
+                'method' => 'onPageReopen',
+                'id' => $id,
+            ]
+        ]);
+}
+
+public function onPageReopen($data) {
+    $subType = $data['id'];
+    $this->contact->statesRelation()->create([
+        'stateble_type' => 'Member',
+        'sub_type' => $subType,
+        'user_id' => auth()->user()->id,
+        'status' => 'open',
+    ]);
+}
+
+    // Run model actions
+    public function actionConfirm($method, $id, $confirmation = null) {
+       // if no confirmation is needed, just run the method
+         if (empty($confirmation)) {
+              $this->actionRunModel([$method, $id]);
+              return;
+         }
+            // otherwise, show the confirmation modal
+            $this->dispatchBrowserEvent('swal:confirmModel', [
+                'type' => 'warning',
+                'title' => 'Are you sure?',
+                'text' => $confirmation,
+                'id' => $id,
+                'method' => $method,
+            ]);
+    }
+
+    public function actionRunModel($array) {
+        $method = $array[0];
+        $id = $array[1];
+        $model = $this->modelClass::findOrFail($id);
+        if (method_exists($model, $method)) {
+            $model->{$method}($id);
+            if (empty($model->errorMessage)) {
+                $this->dispatchBrowserEvent('alert', [
+                    'type' => 'success',  
+                    'message' => substr($method, 2) . ' done!',   
+                ]);
+            } else {
+                $this->dispatchBrowserEvent('swal:modal', [
+                    'type' => 'error',
+                    'title' => 'Error',
+                    'text' => $model->errorMessage ?? 'Action not executed.',
+                ]);
+            }
+        } else {
+            throw new \Exception('Method not found.');
+        }
+    }
+
+    public function actionRun($array) {
+        if (method_exists($this, $array['method'])) {
+            $this->{$array['method']}($array);
+            if (empty($this->errorMessage)) {
+                $this->dispatchBrowserEvent('alert', [
+                    'type' => 'success',  
+                    'message' => substr($array['method'], 2) . ' done!',   
+                ]);
+            } else {
+                $this->dispatchBrowserEvent('swal:modal', [
+                    'type' => 'error',
+                    'title' => 'Error',
+                    'text' => $this->errorMessage ?? 'Action not executed.',
+                ]);
+            }
+        } else {
+            throw new \Exception('Method not found.');
+        }
+    }
+}
