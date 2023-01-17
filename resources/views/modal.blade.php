@@ -14,6 +14,6 @@
     </div>
 </div>
 
-<x-crud::modal title="Create Comment">
-    @include($viewPath . 'create')
-</x-crud::modal>
+<x-modal title="Create Comment">
+    {{-- @include($viewPath . 'create') --}}
+</x-modal>

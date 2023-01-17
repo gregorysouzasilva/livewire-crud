@@ -3,9 +3,9 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
 
         @if($isModalOpen)
-            <x-crud::modal title="Create Comment">
+            <x-modal title="Create Comment">
                 @include($viewPath . $modal)
-            </x-crud::modal>
+            </x-modal>
         @endif
         <!--begin::Card-->
         <div class="w-80 rounded p-10 p-lg-10 mx-auto">

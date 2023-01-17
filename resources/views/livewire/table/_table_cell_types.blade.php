@@ -18,7 +18,7 @@
 
 @elseif($field->type == 'status')
     @if($item->{$field->field})
-    <x-crud::badge-status>{{$item->{$field->field} }}</x-crud::badge-status>
+    <x-badge-status>{{$item->{$field->field} }}</x-badge-status>
     @endif
 
 @elseif($field->type == 'email') 

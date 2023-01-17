@@ -2,7 +2,7 @@
     <div>
         <span class="text-muted fw-semibold fs-7">@lang($pageInfo['description'] ?? '')</span>
         @if(!empty($pageInfo['table']['search_fields']) && empty($condensed))
-            @include('livewire.table.' . '_table_search')
+            @include('crud::livewire.table.' . '_table_search')
         @else
             {{-- <h3>@lang($pageInfo['title'])</h3> --}}
         @endif
@@ -16,10 +16,10 @@
            @if(($pageInfo['table']['filters'] ?? true) == false || !empty($condensed))
 
             @else
-                @include('livewire.table.' . '_table_filter')
-                {{-- @include('livewire.table.' . '_table_export') --}}
+                @include('crud::livewire.table.' . '_table_filter')
+                {{-- @include('crud::livewire.table.' . '_table_export') --}}
             @endif
-            @include('livewire.table.' . '_table_buttons_top')
+            @include('crud::livewire.table.' . '_table_buttons_top')
         </div>
         <!--end::Toolbar-->
         <!--begin::Group actions-->

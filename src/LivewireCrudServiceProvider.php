@@ -16,10 +16,11 @@ class LivewireCrudServiceProvider extends ServiceProvider
     {
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'gregorysouzasilva');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'crud');
+        $this->loadViewsFrom( __DIR__.'/../resources/views/components', 'crud');
+
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
-        Blade::componentNamespace('gregorysouzasilva\\views\\components', 'crud');
-
+        $this->loadComponents();
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
@@ -81,5 +82,21 @@ class LivewireCrudServiceProvider extends ServiceProvider
 
         // Registering package commands.
         // $this->commands([]);
+    }
+
+    private function loadComponents() {
+        $files = glob(__DIR__.'/../resources/views/components/*.blade.php');
+        $files = array_merge($files, glob(__DIR__.'/../resources/views/components/*/*.blade.php'));
+        $files = array_map(function ($file) {
+            // subfolder . component name
+            $file = str_replace(__DIR__.'/../resources/views/components/', '', $file);
+            $file = str_replace('.blade.php', '', $file);
+            $file = str_replace('/', '.', $file);
+            return $file;
+        }, $files);
+
+        foreach ($files as $file) {
+            Blade::component('crud::'.$file, $file);
+        }
     }
 }

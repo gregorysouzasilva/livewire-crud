@@ -1,22 +1,22 @@
 @foreach($collection as $item)
-    {{-- @include('livewire.table._table_group_travel') --}}
+    {{-- @include('crud::livewire.table._table_group_travel') --}}
    
     <tbody x-data="{ expanded: false }" wire:key="line-{{$item->getKey()}}">
         <tr>
             @if(!empty($tableInfo->hasHidden()))
-                <td><x-crud::button.expand/></td>
+                <td><x-button.expand/></td>
             @endif
             @foreach($tableInfo as $field)
                 @if(!$field->visible)
                     @continue
                 @endif
                 <td style="text-align: {{$field->alignment ?? 'left'}}">
-                    @include('livewire.table._table_cell_types')
+                    @include('crud::livewire.table._table_cell_types')
                 </td>
             @endforeach
             <td 
                 @if(!empty($item->created_at)) title="{{Carbon\Carbon::parse($item->created_at, 'UTC')->setTimezone('America/Vancouver');}} ({{$item->getKey()}})" @endif>
-                @include('livewire.table.' . '_table_buttons')
+                @include('crud::livewire.table.' . '_table_buttons')
             </td>
 
         
@@ -28,7 +28,7 @@
                     @continue
                 @endif
                 <b>{{$field->label}}: </b>
-                @include('livewire.table._table_cell_types')
+                @include('crud::livewire.table._table_cell_types')
                 <br>
             @endforeach
             </td>

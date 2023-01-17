@@ -9,7 +9,7 @@
     <div>
         {{ $slot}}
         <button type="button" class="btn btn-light" wire:click="showForm(false)"><i class="bi bi-x"></i> @lang('Cancel')</button>
-        <x-crud::button.group-options :options="$pageInfo['table']['buttons'] ?? []" icon="bi bi-list" label="" :item="$item" size="" />
+        <x-button.group-options :options="$pageInfo['table']['buttons'] ?? []" icon="bi bi-list" label="" :item="$item" size="" />
         <button type="button" class="btn btn-primary" wire:click.prevent="store()"><i class="bi bi-check"></i> @lang('Save')</button>
     </div>
 </div>

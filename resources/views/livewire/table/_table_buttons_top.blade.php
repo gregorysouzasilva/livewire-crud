@@ -1,5 +1,5 @@
 @if(!empty($pageInfo['shortcuts']) && empty($condensed))
-    <x-crud::button.shortcut-pages :pages="$pageInfo['shortcuts']" icon="bi bi-list" label="Shortcuts" />
+    <x-button.shortcut-pages :pages="$pageInfo['shortcuts']" icon="bi bi-list" label="Shortcuts" />
 @endif
 @php
 $hideCreateButton = $hideCreateButton ?? false;
@@ -17,6 +17,6 @@ $hideCreateButton = $hideCreateButton ?? false;
 @endif
 <!--begin::Add -->
 @if($pageInfo['permissions']['create'] && !$hideCreateButton)
-<x-crud::button.create/>
+<x-button.create/>
 @endif
 <!--end::Add -->

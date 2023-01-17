@@ -34,7 +34,7 @@
                     <!--end::Header-->
                     <form>
                         <div class="row" wire:key="{{$memoKey}}">
-                            <x-crud::form.group-editor label="" field="comment" type="memoeditor" width="12"
+                            <x-form.group-editor label="" field="comment" type="memoeditor" width="12"
                                 required=true wirePrefix="model." :value="$model['comment'] ?? ''" />
                         </div>
                     </form>
