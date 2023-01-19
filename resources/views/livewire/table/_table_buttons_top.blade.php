@@ -4,15 +4,21 @@
 @php
 $hideCreateButton = $hideCreateButton ?? false;
 @endphp
-@if(($pageInfo['permissions']['complete'] ?? false) && $contact->getCurrentStateRelation(class_basename($this->model))->status != 'completed')
+@if(($pageInfo['permissions']['complete'] ?? false) && !in_array($contact->getCurrentStateRelation(class_basename($this->model))->status ?? null, ['completed', 'dismissed']))
 <button type="button" wire:click="confirmComplete('{{class_basename($this->model)}}')"
     class="btn btn-light-danger me-3">
     <i class="bi bi-lock-fill"></i>Complete
 </button>
-@elseif(($pageInfo['permissions']['complete'] ?? false) && $contact->getCurrentStateRelation(class_basename($this->model))->status == 'completed')
+@if(hasRole('consultant'))
+<button type="button" wire:click="onPageDismiss('{{class_basename($this->model)}}')"
+    class="btn btn-light-danger me-3">
+    <i class="bi bi-lock-fill"></i>Dismiss
+</button>
+@endif
+@elseif(($pageInfo['permissions']['complete'] ?? false) && in_array($contact->getCurrentStateRelation(class_basename($this->model))->status ?? null, ['completed', 'dismissed']))
 <button type="button" wire:click="confirmReopen('{{class_basename($this->model)}}')"
     class="btn btn-light-danger me-3">
-    <i class="bi bi-unlock-fill"></i>Reopen
+    <i class="bi bi-unlock-fill"></i>Reopen {{$contact->getCurrentStateRelation(class_basename($this->model))->status}}
 </button>
 @endif
 <!--begin::Add -->

@@ -137,6 +137,14 @@ trait ModelActionsTrait {
             'status' => 'completed',
         ]);
    }
+    public function onPageDismiss($subType) {
+        $this->contact->statesRelation()->create([
+            'stateble_type' => 'Member',
+            'sub_type' => $subType,
+            'user_id' => auth()->user()->id,
+            'status' => 'dismissed',
+        ]);
+    }
 
    public function confirmReopen($id) {
         $this->dispatchBrowserEvent('swal:confirm', [
