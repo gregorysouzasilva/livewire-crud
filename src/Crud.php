@@ -9,6 +9,7 @@ use Gregorysouzasilva\LivewireCrud\Traits\ModalTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\ModelActionsTrait;
 use App\Models\Client;
 use App\Models\ClientContact;
+use App\Models\Service;
 use Livewire\WithPagination;
 
 class Crud extends BaseComponent
@@ -37,8 +38,10 @@ class Crud extends BaseComponent
 
     public $clientId = null;
     public $clientUuid = null;
+    public $serviceId = null;
     public $client = null;
     public $contact = null;
+    public $service = null;
 
     public $showForm = false;
     public $returnUrl;
@@ -90,9 +93,13 @@ class Crud extends BaseComponent
             $this->contact = ClientContact::where('client_id', $this->client->id)->where('uuid', $contactUuid)->firstOrFail();
             $this->routeParams['contact_uuid'] = $contactUuid;
         }
+    }
 
-        if (!empty(request('returnUrl'))) {
-            $this->returnUrl = request('returnUrl');
+    public function loadRequests($parameters) {
+        foreach($parameters as $parameter) {
+            if (!empty(request($parameter))) {
+                $this->$parameter = request($parameter);
+            }
         }
     }
 
