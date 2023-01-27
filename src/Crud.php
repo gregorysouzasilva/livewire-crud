@@ -99,9 +99,9 @@ class Crud extends BaseComponent
         foreach($parameters as $parameter) {
             if (!empty(request($parameter))) {
                 $this->$parameter = request($parameter);
-            }
-            if ($parameter == 'client_id') {
-                $this->client = Client::where('id', $this->client_id)->select(['uuid', 'name'])->firstOrFail();
+                if ($parameter == 'client_id') {
+                    $this->client = Client::where('id', $this->client_id)->select(['uuid', 'name'])->firstOrFail();
+                }
             }
         }
     }
