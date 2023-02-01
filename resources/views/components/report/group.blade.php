@@ -4,7 +4,7 @@
         @lang($label)
     </span>
     <br>
-    @if(is_bool($field))
+    @if(is_bool($field) || $field == 1 || $field == "true")
         @if($field)
             @lang('Yes')
         @else
