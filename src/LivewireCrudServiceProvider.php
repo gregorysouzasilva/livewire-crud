@@ -36,6 +36,7 @@ class LivewireCrudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/livewire-crud.php', 'livewire-crud');
+        $tjos->mergeConfigFrom(__DIR__.'/../config/mimeTypes.php', 'mimeTypes');
 
         // Register the service the package provides.
         $this->app->singleton('livewire-crud', function ($app) {
@@ -63,6 +64,9 @@ class LivewireCrudServiceProvider extends ServiceProvider
         // Publishing the configuration file.
         $this->publishes([
             __DIR__.'/../config/livewire-crud.php' => config_path('livewire-crud.php'),
+        ], 'livewire-crud.config');
+        $this->publishes([
+            __DIR__.'/../config/mimeTypes.php' => config_path('mimeTypes.php'),
         ], 'livewire-crud.config');
 
         // Publishing the views.
