@@ -36,7 +36,7 @@ class LivewireCrudServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/livewire-crud.php', 'livewire-crud');
-        $tjos->mergeConfigFrom(__DIR__.'/../config/mimeTypes.php', 'mimeTypes');
+        $this->mergeConfigFrom(__DIR__.'/../config/mimeTypes.php', 'mimeTypes');
 
         // Register the service the package provides.
         $this->app->singleton('livewire-crud', function ($app) {
