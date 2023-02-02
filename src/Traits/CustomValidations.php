@@ -11,7 +11,7 @@ trait CustomValidations
         $rules = '';
         if (count($extensionsArray) > 1 && in_array('docx', $extensionsArray)) {
            // throw exception not allowed docx with other extensions
-           throw('not allowed docx with other extensions');
+           throw new \Exception('not allowed docx with other extensions');
         } elseif (in_array('docx', $extensionsArray)) {
             $rules = 'mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document';
         } else {
