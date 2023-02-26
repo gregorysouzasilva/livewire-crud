@@ -11,6 +11,7 @@ use App\Models\Client;
 use App\Models\ClientContact;
 use App\Models\Service;
 use Livewire\WithPagination;
+use Gregorysouzasilva\LivewireCrud\Traits\RowsTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\CustomValidations;
 
 class Crud extends BaseComponent
@@ -20,6 +21,7 @@ class Crud extends BaseComponent
         ModalTrait,
         LoadData,
         CustomValidations,
+        RowsTrait,
         FormTrait;
 
     public $viewPath = 'livewire.crud.';
