@@ -6,7 +6,9 @@
         <x-form.checkbox :field="$field" :wirePrefix="$wirePrefix" :value="$value ?? 1" inputClass="form-control-solid" />
     @endif
     
-    <label class="form-label" style="display: inline">@lang($label) @if(!empty($explanation))<i class="bi bi-info-circle-fill" title="{{$explanation}}"></i> @endif</label> <span style="float:right">{{ $slot }}</span>
+    <label class="form-label" style="display: inline">@lang($label)
+        @if(!empty($explanation))<i class="bi bi-question-circle-fill" wire:click="openExplanation({{$explanation}})" style="cursor:pointer " title="Click to open the explanation of this item"></i> @endif </label>
+        <span style="float:right">{{ $slot }}</span>
 
     @if ($type != 'checkbox')
         <x-dynamic-component component="{{'form.' . $type}}" :field="$field" :options="$options ?? []" :wirePrefix="$wirePrefix" :value="$value ?? []" inputClass="form-control-solid" :useIndex="$useIndex ?? false"  />
