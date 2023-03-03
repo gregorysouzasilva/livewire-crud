@@ -13,7 +13,7 @@
                 $dispatch('input', editor.getData())
             })
             Livewire.on('clearForm', () => {
-                {{-- editor.setData('','') --}}
+                editor.setData('','')
             })
         })
         .catch( error => {
