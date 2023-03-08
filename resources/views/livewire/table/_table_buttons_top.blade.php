@@ -36,7 +36,7 @@
 @if (!empty($pageInfo['print_link'] ?? false))
     <a href="$pageInfo['print_link']" class="btn btn-light-danger me-3" target="_blank">
         <i class="bi bi-print"></i>Print
-        </button>
+    </a>
 @endif
 <!--begin::Add -->
 @if ($pageInfo['permissions']['create'] && !$hideCreateButton)
