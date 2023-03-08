@@ -34,8 +34,8 @@
     </button>
 @endif
 @if (!empty($pageInfo['print_link'] ?? false))
-    <a href="$pageInfo['print_link']" class="btn btn-light-danger me-3" target="_blank">
-        <i class="bi bi-print"></i>Print
+    <a href="{{$pageInfo['print_link']}}" class="btn btn-light me-3" target="_blank">
+        <i class="bi bi-printer"></i>Print
     </a>
 @endif
 <!--begin::Add -->
