@@ -33,11 +33,17 @@ trait ModelActionsTrait {
     {
         $this->validate();
 
-        // upload file just for one file and field.
-        foreach ($this->files ?? [] as $field => $bucket) {
-            $this->{$field}[0] = $this->{$field}[0]->store($bucket, $bucket);
-            $this->model->{$field} = $this->{$field}[0];
+         // upload file just for one file and field.
+         foreach ($this->files ?? [] as $field => $bucket) {
+            if (!empty($this->{$field}) && is_array($this->{$field})) {
+                $this->{$field}[0] = $this->{$field}[0]->store($bucket, $bucket);
+                $this->model->{$field} = $this->{$field}[0];
+            } elseif(!empty($this->{$field})) {
+                $this->{$field} = $this->{$field}->store($bucket, $bucket);
+                $this->model->{$field} = $this->{$field};
+            }
         }
+        
         $this->model->save();
         $this->dispatchBrowserEvent('alert', [
             'type' => 'success',  

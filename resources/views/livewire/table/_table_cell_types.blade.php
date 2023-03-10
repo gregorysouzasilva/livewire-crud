@@ -44,7 +44,8 @@
     @include($field->view)
 @elseif($field->type == 'client' && !empty($item->client) && !empty($item->client->uuid))
     <a href="{{ route('clients.index', ['client_uuid' => $item->client->uuid] ) }}" class="dashboard"> {{$item->{$field->field} }} </a>
-
+@elseif($field->type == 'image' && !empty($item->full_path))
+    <img src="{{$item->full_path }}" style="width: 50px; height: 50px; object-fit: scale-down; border-radius: 5px;">
 @else
     {{$item->{$field->field} }}
 @endif
