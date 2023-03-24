@@ -50,6 +50,10 @@ trait ModelActionsTrait {
             'message' => $this->modelId ? 'Record updated.' : 'Record created.',
         ]);
 
+        if (method_exists($this, 'afterStore')) {
+            return $this->afterStore();
+        }
+
         if (empty($this->useModal)) {
             $this->showForm(false);
         } else {
