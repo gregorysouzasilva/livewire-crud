@@ -55,5 +55,7 @@ trait ScopesTrait {
         $query->orderByRaw('RAND()');
     }
 
-
+    public function last() {
+        return $this->orderBy('id', 'desc')->first();
+    }
 }
