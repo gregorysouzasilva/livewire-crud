@@ -22,7 +22,7 @@
         
         @if(!empty($tableInfo->hasHidden()))
         <tr x-show="expanded" x-collapse wire:key="line-expand-{{$item->getKey()}}" x-cloak>
-            <td colspan="100%" class="d-md-block">
+            <td colspan="100%">
             @foreach($tableInfo->getHidden() as $field)
                 @if(empty($item->{$field->field}))
                     @continue
