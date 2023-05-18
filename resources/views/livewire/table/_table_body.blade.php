@@ -10,7 +10,7 @@
                 @if(!$field->visible)
                     @continue
                 @endif
-                <td style="text-align: {{$field->alignment ?? 'left'}}">
+                <td style="text-align: {{$field->alignment ?? 'left'}}" class="d-md-table-cell @if($field->hide_mobile ?? false) d-none @else d-block @endif">
                     @include('crud::livewire.table._table_cell_types')
                 </td>
             @endforeach
@@ -22,7 +22,7 @@
         
         @if(!empty($tableInfo->hasHidden()))
         <tr x-show="expanded" x-collapse wire:key="line-expand-{{$item->getKey()}}" x-cloak>
-            <td colspan="100%">
+            <td colspan="100%" class="d-md-block">
             @foreach($tableInfo->getHidden() as $field)
                 @if(empty($item->{$field->field}))
                     @continue
