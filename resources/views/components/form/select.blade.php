@@ -32,7 +32,7 @@
             @else
                 @php($optionArray = explode(',',$option))
             @endif
-            <option value="{{$optionArray[0]}}" @if(in_array($optionArray[0], (array)$value)) selected @endif>{{$optionArray[1] ?? $optionArray[0]}}</option>
+            <option value="{{$optionArray[0]}}" @if(in_array($optionArray[0], (array)$value)) selected @endif>{{__($optionArray[1] ?? $optionArray[0])}}</option>
         @endforeach
     </select>
     {{$slot}}

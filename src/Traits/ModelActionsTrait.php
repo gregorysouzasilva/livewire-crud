@@ -50,6 +50,10 @@ trait ModelActionsTrait {
             'message' => $this->modelId ? 'Record updated.' : 'Record created.',
         ]);
 
+        if (method_exists($this, 'afterStore')) {
+            return $this->afterStore();
+        }
+
         if (empty($this->useModal)) {
             $this->showForm(false);
         } else {
@@ -64,9 +68,11 @@ trait ModelActionsTrait {
         $this->model = $this->modelClass::when(!empty($this->client->id), function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id);
+        if (method_exists($this, 'loadDefaultEdit')) {
+            $this->loadDefaultEdit();
+        }
         $this->modelId = $this->model->getKey();
         $this->routeParams['uuid'] = $this->model->uuid;
-
         if (empty($this->useModal)) {
             $this->showForm(true);
         } else {

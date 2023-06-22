@@ -35,7 +35,7 @@
             }
         }
     @endphp
-    <a href="https://wa.me/{{$phoneNumber}}">{{$item->{$field->field} }}</a>
+    <a href="https://wa.me/{{$phoneNumber}}" target="_blank">{{$item->{$field->field} }}</a>
 @elseif($field->type == 'audio')
     <video>
         <source src="{{$item->full_path }}" type="video/mp4">
