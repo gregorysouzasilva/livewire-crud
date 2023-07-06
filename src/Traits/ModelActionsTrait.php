@@ -103,9 +103,11 @@ trait ModelActionsTrait {
             'type' => 'warning',
             'title' => 'Are you sure?',
             'text' => 'you are about to delete this record',
-            'id' => $id,
-            'method' => 'onDelete',
-            'modelClass' => $this->modelClass ?? '',
+            'data' => [
+                'method' => 'onDelete',
+                 'id' => $id,
+                 'modelClass' => $this->modelClass ?? '',
+            ]
         ]);
     }
     
