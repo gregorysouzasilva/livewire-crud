@@ -104,15 +104,17 @@ trait ModelActionsTrait {
             'title' => 'Are you sure?',
             'text' => 'you are about to delete this record',
             'id' => $id,
-            'method' => 'delete',
+            'method' => 'onDelete',
+            'modelClass' => $this->modelClass ?? '',
         ]);
     }
     
-    public function delete($id)
+    public function onDelete($id)
     {
         $this->model = $this->modelClass::when($this->client, function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id);
+
         if (method_exists($this->model, 'hasFile') && $this->model->hasFile()) {
             // Delete file from storage
             $storage = explode('/', $this->model->file);
@@ -194,10 +196,14 @@ public function onPageReopen($data) {
                 'text' => $confirmation,
                 'id' => $id,
                 'method' => $method,
+                'modelClass' => $this->modelClass ?? '',
             ]);
     }
 
     public function actionRunModel($array) {
+        if (!empty($array[2]) && $array[2] != $this->modelClass) {
+            return;
+        }
         $method = $array[0];
         $id = $array[1];
         $model = $this->modelClass::findOrFail($id);
