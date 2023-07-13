@@ -1,6 +1,15 @@
 @if($field->type == 'DATE' && !empty($item->{$field->field}))
     {{$item->{$field->field}->format('d/m/Y')}}
 
+@elseif($field->type == 'due_date' && !empty($item->{$field->field}))
+    @if ($item->{$field->field}->isPast())
+        <span class="badge badge-danger">{{$item->{$field->field}->format('M d Y')}}</span>
+    @elseif ($item->{$field->field}->isToday())
+        <span class="badge badge-warning">{{$item->{$field->field}->format('M d Y')}}</span>
+    @elseif ($item->{$field->field}->isFuture())
+        <span class="badge badge-success">{{$item->{$field->field}->format('M d Y')}}</span>
+    @endif
+
 @elseif($field->type == 'date_time' && !empty($item->{$field->field}))
     {{$item->{$field->field}->timezone('America/Vancouver')->format('d/m/Y H:i')}}
 
