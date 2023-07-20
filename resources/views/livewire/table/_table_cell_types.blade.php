@@ -1,6 +1,15 @@
 @if($field->type == 'DATE' && !empty($item->{$field->field}))
     {{$item->{$field->field}->format('d/m/Y')}}
 
+@elseif($field->type == 'due_date' && !empty($item->{$field->field}))
+    @if ($item->{$field->field}->isPast())
+        <span class="badge badge-danger">{{$item->{$field->field}->format('M d Y')}}</span>
+    @elseif ($item->{$field->field}->isToday())
+        <span class="badge badge-warning">{{$item->{$field->field}->format('M d Y')}}</span>
+    @elseif ($item->{$field->field}->isFuture())
+        <span class="badge badge-success">{{$item->{$field->field}->format('M d Y')}}</span>
+    @endif
+
 @elseif($field->type == 'date_time' && !empty($item->{$field->field}))
     {{$item->{$field->field}->timezone('America/Vancouver')->format('d/m/Y H:i')}}
 
@@ -35,7 +44,7 @@
             }
         }
     @endphp
-    <a href="https://wa.me/{{$phoneNumber}}">{{$item->{$field->field} }}</a>
+    <a href="https://wa.me/{{$phoneNumber}}" target="_blank">{{$item->{$field->field} }}</a>
 @elseif($field->type == 'audio')
     <video>
         <source src="{{$item->full_path }}" type="video/mp4">
@@ -44,7 +53,8 @@
     @include($field->view)
 @elseif($field->type == 'client' && !empty($item->client) && !empty($item->client->uuid))
     <a href="{{ route('clients.index', ['client_uuid' => $item->client->uuid] ) }}" class="dashboard"> {{$item->{$field->field} }} </a>
-
+@elseif($field->type == 'image' && !empty($item->full_path))
+    <img src="{{$item->full_path }}" style="width: 50px; height: 50px; object-fit: scale-down; border-radius: 5px;">
 @else
     {{$item->{$field->field} }}
 @endif

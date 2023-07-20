@@ -1,7 +1,7 @@
 @foreach($collection as $item)
     {{-- @include('crud::livewire.table._table_group_travel') --}}
    
-    <tbody x-data="{ expanded: false }" wire:key="line-{{$item->getKey()}}">
+    <tbody x-data="{ expanded: false }" wire:key="line-{{$item->getKey()}}" wire:poll.50s>
         <tr>
             @if(!empty($tableInfo->hasHidden()))
                 <td><x-button.expand/></td>
@@ -10,7 +10,7 @@
                 @if(!$field->visible)
                     @continue
                 @endif
-                <td style="text-align: {{$field->alignment ?? 'left'}}">
+                <td style="text-align: {{$field->alignment ?? 'left'}}" class="d-md-table-cell @if($field->hide_mobile ?? false) d-none @else d-block @endif">
                     @include('crud::livewire.table._table_cell_types')
                 </td>
             @endforeach

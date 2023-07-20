@@ -1,5 +1,5 @@
 <div class="card-header border-0 p-3">
-    <div>
+    <div class="w-50">
         <span class="text-muted fw-semibold fs-7">@lang($pageInfo['description'] ?? '')</span>
         @if(!empty($pageInfo['table']['search_fields']) && empty($condensed))
             @include('crud::livewire.table.' . '_table_search')
