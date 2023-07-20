@@ -99,31 +99,31 @@ trait ModelActionsTrait {
     }
 
     public function deleteConfirm($id) {
-         $this->dispatchBrowserEvent('swal:confirmModel', [
+         $this->dispatchBrowserEvent('swal:confirm', [
             'type' => 'warning',
             'title' => 'Are you sure?',
             'text' => 'you are about to delete this record',
-            'id' => $id,
-            'method' => 'delete',
+            'data' => [
+                'method' => 'onDelete',
+                 'id' => $id,
+                 'modelClass' => $this->modelClass ?? '',
+            ]
         ]);
     }
     
-    public function delete($id)
+    public function onDelete($array)
     {
-        $this->model = $this->modelClass::when($this->client, function ($query) {
+        $id = $array['id'];
+        $this->model = $this->modelClass::when(!empty($this->client), function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id);
+        
         if (method_exists($this->model, 'hasFile') && $this->model->hasFile()) {
             // Delete file from storage
             $storage = explode('/', $this->model->file);
             $resp = Storage::disk($storage[0])->delete($this->model->file);
         }
         $this->model->delete();
-
-        $this->dispatchBrowserEvent('alert', [
-            'type' => 'success',  
-            'message' => 'Record deleted.',
-        ]);
         
         $this->clearForm();
     }
@@ -194,10 +194,14 @@ public function onPageReopen($data) {
                 'text' => $confirmation,
                 'id' => $id,
                 'method' => $method,
+                'modelClass' => $this->modelClass ?? '',
             ]);
     }
 
     public function actionRunModel($array) {
+        if (!empty($array[2]) && $array[2] != $this->modelClass) {
+            return;
+        }
         $method = $array[0];
         $id = $array[1];
         $model = $this->modelClass::findOrFail($id);
@@ -221,6 +225,9 @@ public function onPageReopen($data) {
     }
 
     public function actionRun($array) {
+        if (!empty($array['modelClass']) && $array['modelClass'] != $this->modelClass) {
+            return;
+        }
         if (method_exists($this, $array['method'])) {
             $this->{$array['method']}($array);
             if (empty($this->errorMessage)) {
