@@ -13,7 +13,7 @@
     "keywords": ["Laravel", "LivewireCrud"],
     "require": {
         "laravel/framework": "^8.12",
-        "livewire/livewire": "^2.8",
+        "livewire/livewire": "^2.8|^3.0@beta",
         "spatie/laravel-permission": "^4.0"
     },
     "require-dev": {
@@ -23,7 +23,10 @@
     "autoload": {
         "psr-4": {
             "Gregorysouzasilva\\LivewireCrud\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
