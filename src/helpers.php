@@ -7,7 +7,7 @@
  */
 
 if (! function_exists('money_format')) {
-    function formatCurrency($amount, $currency)
+    function money_format($amount, $currency)
     {
         $fmt = new NumberFormatter( app()->getLocale(), NumberFormatter::CURRENCY );
         return $fmt->formatCurrency($amount, $currency);
