@@ -7,9 +7,10 @@
  */
 
 if (! function_exists('money_format')) {
-    function money_format($amount, $currency)
+    function money_format($amount)
     {
         $fmt = new NumberFormatter( app()->getLocale(), NumberFormatter::CURRENCY );
-        return $fmt->formatCurrency($amount, $currency);
+        $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+        return $fmt->formatCurrency($amount, '');
     }
 }

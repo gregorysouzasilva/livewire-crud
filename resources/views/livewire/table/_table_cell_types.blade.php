@@ -14,7 +14,7 @@
     {{$item->{$field->field}->timezone('America/Vancouver')->format('d/m/Y H:i')}}
 
 @elseif($field->type == 'currency' && !empty($item->{$field->field}))
-    {{ money_format("%i", $item->{$field->field})}}
+    {{ money_format($item->{$field->field})}}
 
 @elseif($field->type == 'gravatar' && !empty($item->{$field->field}))
     <img src="{{'http://www.gravatar.com/avatar/' . md5($item->{$field->field})}}?size=50">   
