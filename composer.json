@@ -12,7 +12,7 @@
     "homepage": "https://github.com/gregorysouzasilva/livewire-crud",
     "keywords": ["Laravel", "LivewireCrud"],
     "require": {
-        "laravel/framework": "^8.12",
+        "laravel/framework": "^9.0",
         "livewire/livewire": "^2.8|^3.0@beta",
         "spatie/laravel-permission": "^4.0"
     },
