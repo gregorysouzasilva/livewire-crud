@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Function base_path not found\\.$#"
-			count: 1
-			path: src/Ray.php
-
-		-
 			message: "#^Function app not found\\.$#"
 			count: 1
 			path: src/helpers.php
@@ -19,9 +14,3 @@ parameters:
 			message: "#^Instantiated class Spatie\\\\WordPressRay\\\\Ray not found\\.$#"
 			count: 1
 			path: src/helpers.php
-
-		-
-			message: "#^Call to an undefined method Spatie\\\\Ray\\\\Tests\\\\RayTest\\:\\:sendRequest\\(\\)\\.$#"
-			count: 1
-			path: tests/RayTest.php
-

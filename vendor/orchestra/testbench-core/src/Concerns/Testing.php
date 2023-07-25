@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -187,7 +188,36 @@ trait Testing
             $this->setUpFaker();
         }
 
+        Collection::make($uses)
+            ->reject(function ($use) {
+                return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
+            })->transform(function ($use) {
+                return class_basename($use);
+            })->each(function ($traitBaseName) {
+                /** @var string $traitBaseName */
+                if (method_exists($this, $method = 'setUp'.$traitBaseName)) {
+                    $this->{$method}();
+                }
+
+                if (method_exists($this, $method = 'tearDown'.$traitBaseName)) {
+                    $this->beforeApplicationDestroyed(function () use ($method) {
+                        $this->{$method}();
+                    });
+                }
+            });
+
         return $uses;
+    }
+
+    /**
+     * Determine trait should be ignored from being autoloaded.
+     *
+     * @param  class-string  $use
+     * @return bool
+     */
+    protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
+    {
+        return false;
     }
 
     /**
