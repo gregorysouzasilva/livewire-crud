@@ -8,11 +8,12 @@ if(!empty($options) && empty($type)) {
     $type = 'select';
 }
 $type = $type ?? 'text';
+$validations = $validations ?? '';
 @endphp
 <!--begin::Input group-->
 <div class="form-floating mb-4 col-xl-{{$width}} col-md-{{$width+2}} col-sm-12" id='div-{{$wirePrefix}}-{{$field}}'>
         <x-dynamic-component component="{{'form.' . $type}}" :field="$field" :options="$options ?? []" :wirePrefix="$wirePrefix" :value="$value ?? []" 
-            :disabled="$disabled ?? false" :multiple="$multiple ?? false" :useIndex="$useIndex ?? false" label="{{$label}}" :hideLabel="$hideLabel">
+            :disabled="$disabled ?? false" :multiple="$multiple ?? false" :useIndex="$useIndex ?? false" label="{{$label}}" :hideLabel="$hideLabel" :validations="$validations">
             @if(!$hideLabel)
                 <label for="{{$field}}" @if($type=="memoeditor")style="margin-top:-17px;"@endif>@lang($label)</label>
             @endif
