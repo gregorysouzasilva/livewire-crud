@@ -8,7 +8,7 @@
             allowClear: true,
             placeholder: 'Select',
             ajax: {
-                url: {{$url}},
+                url: '{{$url}}',
                 dataType: 'json'
             }
         });
