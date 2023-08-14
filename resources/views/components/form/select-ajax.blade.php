@@ -1,4 +1,4 @@
-@props(['field','options', 'wirePrefix', 'value', 'url'])
+@props(['field','options', 'wirePrefix', 'value', 'url', 'labelValue'])
 @php
     $id = str_replace('.', '-', $wirePrefix) . '-' . $field;
 @endphp
