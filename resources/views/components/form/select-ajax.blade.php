@@ -20,7 +20,7 @@
 
         <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}">
             @if(!empty($value))
-            <option selected>{{$value ?? ''}}</option>
+            <option value="{{$value}}" selected>{{$labelValue ?? ''}}</option>
             @endif
     </select>
     {{$slot}}
