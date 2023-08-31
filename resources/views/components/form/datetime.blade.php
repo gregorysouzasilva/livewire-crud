@@ -4,6 +4,6 @@
         clearIncomplete: true,
     }).mask('#{{$field}}');" 
 class="form-floating">
-    <input type="text" class="form-control {{$inputClass ?? ''}}" wire:model.lazy="{{$wirePrefix}}{{$field ?? ''}}" placeholder="" id="{{$wirePrefix}}{{$field}}"/>
+    <input type="text" class="form-control {{$inputClass ?? ''}}" wire:model.lazy="{{$wirePrefix}}{{$field ?? ''}}" id="{{$wirePrefix}}{{$field}}"/>
     {{$slot}}
 </div>
