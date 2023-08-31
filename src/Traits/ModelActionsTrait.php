@@ -16,7 +16,7 @@ trait ModelActionsTrait {
 
     public function create()
     {
-        $this->clearForm();
+        //$this->clearForm();
         $this->model = new $this->modelClass;
         if (method_exists($this, 'loadDefaultCreateData')) {
             $this->loadDefaultCreateData();
@@ -59,12 +59,12 @@ trait ModelActionsTrait {
         } else {
             $this->closeModalPopover();
         }
-        $this->clearForm();
+        //$this->clearForm();
         $this->model = new $this->modelClass;
     }
 
     public function edit($id) {
-        $this->clearForm();
+        //$this->clearForm();
         $this->model = $this->modelClass::when(!empty($this->client->id), function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id);
@@ -82,7 +82,7 @@ trait ModelActionsTrait {
     }
 
     public function duplicate($id) {
-        $this->clearForm();
+        //$this->clearForm();
         $model = $this->modelClass::when($this->client, function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id)->toArray();
@@ -125,7 +125,7 @@ trait ModelActionsTrait {
         }
         $this->model->delete();
         
-        $this->clearForm();
+        //$this->clearForm();
     }
 
     public function confirmComplete($id) {
