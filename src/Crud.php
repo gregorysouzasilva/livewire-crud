@@ -36,6 +36,7 @@ class Crud extends BaseComponent
     public $file = [];
 
     public $pageInfo = [];
+    public $tableInfo = [];
     public $condensed = false;
     public $hideCreateButton = false;
     public $routeParams = [];
