@@ -10,12 +10,12 @@ trait ModalTrait {
     {
         $this->modal = $modal;
         $this->isModalOpen = true;
-        $this->emit('showBootstrapModal');
+        $this->dispatch('showBootstrapModal');
     }
     
     public function closeModalPopover()
     {
         $this->isModalOpen = false;
-        $this->emit('hideModal');
+        $this->dispatch('hideModal');
     }
 }

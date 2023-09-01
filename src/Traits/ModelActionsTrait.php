@@ -45,10 +45,10 @@ trait ModelActionsTrait {
         }
         
         $this->model->save();
-        $this->dispatchBrowserEvent('alert', [
-            'type' => 'success',  
-            'message' => $this->modelId ? 'Record updated.' : 'Record created.',
-        ]);
+        $this->dispatch('alert', 
+            type: 'success',  
+            message: $this->modelId ? 'Record updated.' : 'Record created.'
+        );
 
         if (method_exists($this, 'afterStore')) {
             return $this->afterStore();
@@ -99,16 +99,16 @@ trait ModelActionsTrait {
     }
 
     public function deleteConfirm($id) {
-         $this->dispatchBrowserEvent('swal:confirm', [
-            'type' => 'warning',
-            'title' => 'Are you sure?',
-            'text' => 'you are about to delete this record',
-            'data' => [
+        $this->dispatch('swal:confirm', 
+            type: 'warning',
+            title: 'Are you sure?',
+            text: 'you are about to delete this record',
+            data: [
                 'method' => 'onDelete',
                  'id' => $id,
                  'modelClass' => $this->modelClass ?? '',
             ]
-        ]);
+        );
     }
     
     public function onDelete($array)
@@ -129,7 +129,7 @@ trait ModelActionsTrait {
     }
 
     public function confirmComplete($id) {
-        $this->dispatchBrowserEvent('swal:confirm', [
+        $this->dispatch('swal:confirm', [
            'type' => 'warning',
            'title' => 'Are you sure you want to complete?',
            'text' => 'Complete action will block ' . $id . ' from further editing for this person.',
@@ -138,6 +138,16 @@ trait ModelActionsTrait {
                 'id' => $id,
            ]
        ]);
+
+       $this->dispatch('swal:confirm',
+              type: 'warning',
+              title: 'Are you sure you want to complete?',
+              text: 'Complete action will block ' . $id . ' from further editing for this person.',
+              data: [
+                'method' => 'onPageComplete',
+                 'id' => $id,
+              ]
+         );
    }
 
    public function onPageComplete($data) {
@@ -159,15 +169,15 @@ trait ModelActionsTrait {
     }
 
    public function confirmReopen($id) {
-        $this->dispatchBrowserEvent('swal:confirm', [
-            'type' => 'warning',
-            'title' => 'Are you sure you want to reopen?',
-            'text' => 'Reopen will unlock ' . $id . ' for client users editing for this person.',
-            'data' => [
+        $this->dispatch('swal:confirm',
+            type: 'warning',
+            title: 'Are you sure you want to reopen?',
+            text: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
+            data: [
                 'method' => 'onPageReopen',
                 'id' => $id,
             ]
-        ]);
+        );
 }
 
 public function onPageReopen($data) {
@@ -187,8 +197,7 @@ public function onPageReopen($data) {
               $this->actionRunModel([$method, $id]);
               return;
          }
-            // otherwise, show the confirmation modal
-            $this->dispatchBrowserEvent('swal:confirmModel', [
+            $this->dispatch('swal:confirmModel', [
                 'type' => 'warning',
                 'title' => 'Are you sure?',
                 'text' => $confirmation,
@@ -208,16 +217,15 @@ public function onPageReopen($data) {
         if (method_exists($model, $method)) {
             $model->{$method}($id);
             if (empty($model->errorMessage)) {
-                $this->dispatchBrowserEvent('alert', [
-                    'type' => 'success',  
-                    'message' => substr($method, 2) . ' done!',   
-                ]);
+                $this->dispatch('alert',
+                    type: 'success',  
+                    message: substr($method, 2) . ' done!',   
+                );
             } else {
-                $this->dispatchBrowserEvent('swal:modal', [
-                    'type' => 'error',
-                    'title' => 'Error',
-                    'text' => $model->errorMessage ?? 'Action not executed.',
-                ]);
+                $this->dispatch('alert',
+                    type: 'error',  
+                    title: 'Error',
+                    message: $model->errorMessage ?? 'Action not executed.',);
             }
         } else {
             throw new \Exception('Method not found.');
@@ -230,17 +238,16 @@ public function onPageReopen($data) {
         }
         if (method_exists($this, $array['method'])) {
             $this->{$array['method']}($array);
-            if (empty($this->errorMessage)) {
-                $this->dispatchBrowserEvent('alert', [
-                    'type' => 'success',  
-                    'message' => substr($array['method'], 2) . ' done!',   
-                ]);
+            if (empty($model->errorMessage)) {
+                $this->dispatch('alert',
+                    type: 'success',  
+                    message: substr($method, 2) . ' done!',   
+                );
             } else {
-                $this->dispatchBrowserEvent('swal:modal', [
-                    'type' => 'error',
-                    'title' => 'Error',
-                    'text' => $this->errorMessage ?? 'Action not executed.',
-                ]);
+                $this->dispatch('alert',
+                    type: 'error',  
+                    title: 'Error',
+                    message: $model->errorMessage ?? 'Action not executed.',);
             }
         } else {
             throw new \Exception('Method not found.');

@@ -10,7 +10,7 @@
                 </svg>
             </span>
             <!--end::Svg Icon-->
-            <input type="text" wire:model.lazy="search" class="form-control form-control-solid w-250px ps-15" placeholder="@lang("Search")">
+            <input type="text" wire:model.blur="search" class="form-control form-control-solid w-250px ps-15" placeholder="@lang("Search")">
         </div>
         <!--end::Search-->
     </div>

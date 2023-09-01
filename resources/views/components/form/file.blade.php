@@ -2,7 +2,7 @@
     @if(!$hideLabel)
     <label class="form-label">{{$label ?? ''}} ({{$validations ?? 'all types'}})</label>
     @endif
-    <input type="file" class="form-control" wire:model="{{$wirePrefix.$field}}" accept="
+    <input type="file" class="form-control" wire:model.live="{{$wirePrefix.$field}}" accept="
     @foreach(explode(',', $validations ?? '') as $validation)
         .{{$validation}},
     @endforeach

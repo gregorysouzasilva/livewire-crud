@@ -1,4 +1,4 @@
 <div class="form-floating">
-    <textarea class="form-control" wire:model.lazy="{{$wirePrefix}}{{$field ?? ''}}" id="{{$wirePrefix}}{{$field}}"/>
+    <textarea class="form-control" wire:model.blur="{{$wirePrefix}}{{$field ?? ''}}" id="{{$wirePrefix}}{{$field}}"/>
 </div>
 {{$slot}}

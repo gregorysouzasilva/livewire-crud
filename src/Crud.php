@@ -2,7 +2,7 @@
 
 namespace Gregorysouzasilva\LivewireCrud;
 
-use App\Http\Livewire\BaseComponent;
+use App\Livewire\BaseComponent;
 use Gregorysouzasilva\LivewireCrud\Traits\FormTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\LoadData;
 use Gregorysouzasilva\LivewireCrud\Traits\ModalTrait;

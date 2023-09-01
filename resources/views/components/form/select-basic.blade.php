@@ -11,7 +11,7 @@
     asort($options);
     @endphp
 
-        <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" @if(!empty($disabled))disabled @endif @if(!empty($multiple)) multiple @endif wire:model.lazy="{{$wirePrefix}}{{$field ?? ''}}">
+        <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" @if(!empty($disabled))disabled @endif @if(!empty($multiple)) multiple @endif wire:model.blur="{{$wirePrefix}}{{$field ?? ''}}">
             <option></option>
         @foreach ($options as $ind => $option)
             @if(empty(trim($option)))

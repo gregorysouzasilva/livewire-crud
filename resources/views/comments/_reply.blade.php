@@ -4,7 +4,7 @@
     <!--begin::Reply input-->
     <form class="position-relative mb-6">
         <textarea class="form-control border-0 p-0 pe-10 resize-none min-h-25px" rows="3" 
-            placeholder="Reply.." data-kt-initialized="1" style="overflow: hidden; overflow-wrap: break-word;" wire:model="replies.{{$item->getKey()}}.comment">
+            placeholder="Reply.." data-kt-initialized="1" style="overflow: hidden; overflow-wrap: break-word;" wire:model.live="replies.{{$item->getKey()}}.comment">
         </textarea>
         <div class="position-absolute top-0 end-0 me-n5">
             <button type="button" class="btn btn-icon btn-active-light-primary" wire:click="saveReply({{$item->getKey()}})">
