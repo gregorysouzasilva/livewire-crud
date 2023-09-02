@@ -41,7 +41,7 @@
                     <div class="modal-footer">
                         @if(!$condensed)
                             <button type="button" class="btn btn-light"
-                                wire:click="showForm(false)">@lang('Cancel')</button>
+                                wire:click="onShowForm(false)">@lang('Cancel')</button>
                         @endif
                         <button type="button" class="btn btn-primary"
                             wire:click.prevent="store()">@lang('Save')</button>

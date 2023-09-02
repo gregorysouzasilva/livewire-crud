@@ -22,7 +22,7 @@ trait ModelActionsTrait {
             $this->loadDefaultCreateData();
         }
         if (empty($this->useModal)) {
-            $this->showForm(true);
+            $this->onShowForm(true);
         } else {
             $this->openModalPopover('create');
         }
@@ -55,7 +55,7 @@ trait ModelActionsTrait {
         }
 
         if (empty($this->useModal)) {
-            $this->showForm(false);
+            $this->onShowForm(false);
         } else {
             $this->closeModalPopover();
         }
@@ -74,7 +74,7 @@ trait ModelActionsTrait {
         $this->modelId = $this->model->getKey();
         $this->routeParams['uuid'] = $this->model->uuid;
         if (empty($this->useModal)) {
-            $this->showForm(true);
+            $this->onShowForm(true);
         } else {
             $this->openModalPopover('create');
         }
@@ -92,7 +92,7 @@ trait ModelActionsTrait {
         $this->model = $this->modelClass::create($model);
         $this->modelId = $this->model->getKey();
         if (empty($this->useModal)) {
-            $this->showForm(true);
+            $this->onShowForm(true);
         } else {
             $this->openModalPopover('create');
         }
