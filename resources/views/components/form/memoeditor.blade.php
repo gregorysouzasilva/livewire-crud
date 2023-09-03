@@ -10,7 +10,7 @@
         ClassicEditor.create(document.querySelector('#{{$id}}'))
         .then( function(editor){
             editor.model.document.on('change:data', () => {
-                $set('{{$wirePrefix . $field}}', editor.getData())
+                $wire.set('{{$wirePrefix . $field}}', editor.getData())
             })
             Livewire.on('clearForm', () => {
                 editor.setData('','')
