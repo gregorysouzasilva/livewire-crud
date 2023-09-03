@@ -7,11 +7,14 @@
     class="form-textarea w-full"
     x-data="{}"
     x-init="
-        ClassicEditor.create(document.querySelector('#{{$id}}'))
+    ClassicEditor.create(document.querySelector('#{{$id}}'))
         .then( function(editor){
-            editor.model.document.on('change:data', () => {
-                $wire.set('{{$wirePrefix . $field}}', editor.getData())
-            })
+            editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
+                if ( !isFocused ) {
+                    $wire.set('{{$wirePrefix . $field}}', editor.getData())
+                }
+            } );
+
             Livewire.on('clearForm', () => {
                 editor.setData('','')
             })
