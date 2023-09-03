@@ -10,7 +10,7 @@
         ClassicEditor.create(document.querySelector('#{{$id}}'))
         .then( function(editor){
             editor.model.document.on('change:data', () => {
-                $dispatch('input', editor.getData())
+                $dispatch('input', {value:editor.getData()})
             })
             Livewire.on('clearForm', () => {
                 editor.setData('','')
