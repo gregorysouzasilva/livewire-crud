@@ -7,7 +7,7 @@
             @if(isset($field->visible) && !$field->visible)
                 @continue
             @endif
-            <th style="text-align: {{$field->alignment ?? 'left'}}" class="d-md-table-cell @if($field->hide_mobile ?? false) d-none @else d-block @endif"><a @if($field->order)wire:click.prevent="sortBy('{{($field->prefix ?? '') .  ($field->sortField ?? $field->field)}}')" style="cursor:pointer" @endif>@lang($field->label)
+            <th style="text-align: {{$field->alignment ?? 'left'}}" class="d-md-table-cell @if($field->hide_mobile ?? false) d-none @else d-block @endif"><a @if($field->order)wire:click="sortBy('{{($field->prefix ?? '') .  ($field->sortField ?? $field->field)}}')" style="cursor:pointer" @endif>@lang($field->label)
             @if($sortField == $field->field || $sortField == ($field->prefix ?? '') . $field->field)
                 @if($sortDirection == 'asc')
                     <i class="fas fa-sort-up"></i>

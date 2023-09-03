@@ -44,7 +44,7 @@
                                 wire:click="onShowForm(false)">@lang('Cancel')</button>
                         @endif
                         <button type="button" class="btn btn-primary"
-                            wire:click.prevent="store()">@lang('Save')</button>
+                            wire:click="store()">@lang('Save')</button>
                     </div>
                 </div>
                 <!--end::Body-->

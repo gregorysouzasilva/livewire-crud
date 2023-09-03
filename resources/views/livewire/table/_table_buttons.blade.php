@@ -16,7 +16,7 @@
                 (isset($option->grouped) && $option->grouped == false) &&
                 (empty($option->role) || (auth()->user() && auth()->user()->hasRole($option->role))) )
             <!--begin::Menu item-->
-                <a href="{{ $item->renderTags($option->url ?? '') }}" class="btn btn-sm btn-light btn-active-primary" target="{{ $option->target ?? '_self' }}" @if(!empty($option->action))wire:click.prevent="actionConfirm('{{$option->action}}','{{$item->getKey()}}', '{{$option->confirm ?? ''}}')"@endif>
+                <a href="{{ $item->renderTags($option->url ?? '') }}" class="btn btn-sm btn-light btn-active-primary" target="{{ $option->target ?? '_self' }}" @if(!empty($option->action))wire:click="actionConfirm('{{$option->action}}','{{$item->getKey()}}', '{{$option->confirm ?? ''}}')"@endif wire:navigate>
                     <i class="{{$option->icon}}" style="padding-right: 8px" title="@lang($option->label)"></i> 
                 </a>
         @endif

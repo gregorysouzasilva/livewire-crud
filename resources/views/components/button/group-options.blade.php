@@ -16,7 +16,7 @@ $size = $size ?? 'sm';
                 (!isset($option->grouped) || $option->grouped == true) &&
                 (empty($option->role) || (auth()->user() && auth()->user()->hasRole($option->role))))
                 <div class="menu-item px-3">
-                    <a href="{{ $item->renderTags($option->url ?? '') }}" class="menu-link px-3" target="{{ $option->target ?? '_self' }}" @if(!empty($option->action))wire:click.prevent="actionConfirm('{{$option->action}}','{{$item->getKey()}}', '{{$option->confirm ?? ''}}')"@endif>
+                    <a href="{{ $item->renderTags($option->url ?? '') }}" class="menu-link px-3" target="{{ $option->target ?? '_self' }}" @if(!empty($option->action))wire:click="actionConfirm('{{$option->action}}','{{$item->getKey()}}', '{{$option->confirm ?? ''}}')"@endif wire:navigate>
                         <i class="{{$option->icon}}" style="padding-right: 8px"></i> @lang($option->label)
                     </a>
                 </div>
