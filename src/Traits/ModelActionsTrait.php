@@ -129,16 +129,6 @@ trait ModelActionsTrait {
     }
 
     public function confirmComplete($id) {
-        $this->dispatch('swal:confirm', [
-           'type' => 'warning',
-           'title' => 'Are you sure you want to complete?',
-           'text' => 'Complete action will block ' . $id . ' from further editing for this person.',
-           'data' => [
-               'method' => 'onPageComplete',
-                'id' => $id,
-           ]
-       ]);
-
        $this->dispatch('swal:confirm',
               type: 'warning',
               title: 'Are you sure you want to complete?',
