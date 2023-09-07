@@ -4,9 +4,10 @@ namespace Gregorysouzasilva\LivewireCrud\Traits;
 
 use Carbon\Carbon;
 use File;
-use Illuminate\Support\Facades\Storage;
-
 use function PHPSTORM_META\type;
+
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
 
 trait ModelActionsTrait {
 
@@ -101,7 +102,7 @@ trait ModelActionsTrait {
     }
 
     public function deleteConfirm($id) {
-        $this->dispatch('swal:confirm', 
+        $this->confirm( 
             type: 'warning',
             title: 'Are you sure?',
             text: 'you are about to delete this record',
@@ -131,7 +132,7 @@ trait ModelActionsTrait {
     }
 
     public function confirmComplete($id) {
-       $this->dispatch('swal:confirm',
+       $this->confirm(
               type: 'warning',
               title: 'Are you sure you want to complete?',
               text: 'Complete action will block ' . $id . ' from further editing for this person.',
@@ -161,7 +162,7 @@ trait ModelActionsTrait {
     }
 
    public function confirmReopen($id) {
-        $this->dispatch('swal:confirm',
+        $this->confirm(
             type: 'warning',
             title: 'Are you sure you want to reopen?',
             text: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
