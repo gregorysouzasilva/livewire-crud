@@ -44,7 +44,8 @@ trait ModelActionsTrait {
         
         $this->model->save();
         $this->toastr( 
-            type: 'success',  
+            type: 'success',
+            title: 'Success',
             message: $this->modelId ? 'Record updated.' : 'Record created.'
         );
 

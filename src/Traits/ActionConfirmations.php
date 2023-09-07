@@ -21,7 +21,7 @@ trait ActionConfirmations {
  
      // Run model actions
      public function actionRunModel($method, $id, $modelClass = null) {
-         if (!empty($modelClass) && $modelClass != $this->modelClass) {
+        if (!empty($modelClass) && str_replace('\\', '', $modelClass) != str_replace('\\', '',$this->modelClass)) {
              return;
          }
  
@@ -30,7 +30,8 @@ trait ActionConfirmations {
              $model->{$method}($id);
              if (empty($model->errorMessage)) {
                  $this->toastr(
-                     type: 'success',  
+                     type: 'success',
+                     title: 'Success',  
                      message: substr($method, 2) . ' done!',   
                  );
              } else {
@@ -45,14 +46,15 @@ trait ActionConfirmations {
      }
  
      public function actionRun($method, $id, $modelClass = null) {
-         if (!empty($modelClass) && $modelClass != $this->modelClass) {
+        if (!empty($modelClass) && str_replace('\\', '', $modelClass) != str_replace('\\', '',$this->modelClass)) {
              return;
          }
          if (method_exists($this, $method)) {
              $response = $this->{$method}(['id' => $id]);
              if (empty($response->errorMessage)) {
                  $this->toastr(
-                     type: 'success',  
+                     type: 'success',
+                     title: 'Success',
                      message: substr($method, 2) . ' done!',   
                  );
              } else {
