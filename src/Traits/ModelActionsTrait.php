@@ -105,7 +105,7 @@ trait ModelActionsTrait {
         $this->confirm( 
             type: 'warning',
             title: 'Are you sure?',
-            text: 'you are about to delete this record',
+            message: 'you are about to delete this record',
             data: [
                 'method' => 'onDelete',
                  'id' => $id,
@@ -135,7 +135,7 @@ trait ModelActionsTrait {
        $this->confirm(
               type: 'warning',
               title: 'Are you sure you want to complete?',
-              text: 'Complete action will block ' . $id . ' from further editing for this person.',
+              message: 'Complete action will block ' . $id . ' from further editing for this person.',
               data: [
                 'method' => 'onPageComplete',
                  'id' => $id,
@@ -165,7 +165,7 @@ trait ModelActionsTrait {
         $this->confirm(
             type: 'warning',
             title: 'Are you sure you want to reopen?',
-            text: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
+            message: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
             data: [
                 'method' => 'onPageReopen',
                 'id' => $id,
@@ -193,7 +193,7 @@ public function onPageReopen($data) {
             $this->dispatch('swal:confirmModel',
                 type: 'warning',
                 title: 'Are you sure?',
-                text: $confirmation,
+                message: $confirmation,
                 id: $id,
                 method: $method,
                 modelClass: $this->modelClass ?? ''
