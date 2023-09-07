@@ -230,17 +230,17 @@ public function onPageReopen($data) {
             return;
         }
         if (method_exists($this, $array['method'])) {
-            $this->{$array['method']}($array);
-            if (empty($model->errorMessage)) {
+            $response = $this->{$array['method']}($array);
+            if (empty($response->errorMessage)) {
                 $this->dispatch('alert',
                     type: 'success',  
-                    message: substr($method, 2) . ' done!',   
+                    message: substr($array['method'], 2) . ' done!',   
                 );
             } else {
                 $this->dispatch('alert',
                     type: 'error',  
                     title: 'Error',
-                    message: $model->errorMessage ?? 'Action not executed.',);
+                    message: $response->errorMessage ?? 'Action not executed.',);
             }
         } else {
             throw new \Exception('Method not found.');
