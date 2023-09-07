@@ -2,11 +2,6 @@
 
 namespace Gregorysouzasilva\LivewireCrud\Traits;
 
-use Carbon\Carbon;
-use File;
-use function PHPSTORM_META\type;
-
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Storage;
 
 trait ModelActionsTrait {
@@ -48,7 +43,7 @@ trait ModelActionsTrait {
         }
         
         $this->model->save();
-        $this->dispatch('alert', 
+        $this->toastr( 
             type: 'success',  
             message: $this->modelId ? 'Record updated.' : 'Record created.'
         );
@@ -106,11 +101,9 @@ trait ModelActionsTrait {
             type: 'warning',
             title: 'Are you sure?',
             message: 'you are about to delete this record',
-            data: [
-                'method' => 'onDelete',
-                 'id' => $id,
-                 'modelClass' => $this->modelClass ?? '',
-            ]
+            method: 'onDelete',
+            id: $id,
+            modelClass: $this->modelClass ?? '',
         );
     }
     
@@ -136,10 +129,8 @@ trait ModelActionsTrait {
               type: 'warning',
               title: 'Are you sure you want to complete?',
               message: 'Complete action will block ' . $id . ' from further editing for this person.',
-              data: [
-                'method' => 'onPageComplete',
-                 'id' => $id,
-              ]
+              method: 'onPageComplete',
+              id: $id,
          );
    }
 
@@ -166,10 +157,8 @@ trait ModelActionsTrait {
             type: 'warning',
             title: 'Are you sure you want to reopen?',
             message: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
-            data: [
-                'method' => 'onPageReopen',
-                'id' => $id,
-            ]
+            method: 'onPageReopen',
+            id: $id,
         );
 }
 
@@ -183,66 +172,4 @@ public function onPageReopen($data) {
     ]);
 }
 
-    // Run model actions
-    public function actionConfirm($method, $id, $confirmation = null) {
-       // if no confirmation is needed, just run the method
-         if (empty($confirmation)) {
-              $this->actionRunModel($method, $id);
-              return;
-         }
-            $this->dispatch('swal:confirmModel',
-                type: 'warning',
-                title: 'Are you sure?',
-                message: $confirmation,
-                id: $id,
-                method: $method,
-                modelClass: $this->modelClass ?? ''
-            );
-    }
-
-    public function actionRunModel($method, $id, $modelClass = null) {
-        if (!empty($modelClass) && $modelClass != $this->modelClass) {
-            return;
-        }
-
-        $model = $this->modelClass::findOrFail($id);
-        if (method_exists($model, $method)) {
-            $model->{$method}($id);
-            if (empty($model->errorMessage)) {
-                $this->dispatch('alert',
-                    type: 'success',  
-                    message: substr($method, 2) . ' done!',   
-                );
-            } else {
-                $this->dispatch('alert',
-                    type: 'error',  
-                    title: 'Error',
-                    message: $model->errorMessage ?? 'Action not executed.',);
-            }
-        } else {
-            throw new \Exception('Method not found.');
-        }
-    }
-
-    public function actionRun($method, $id, $modelClass = null) {
-        if (!empty($modelClass) && $modelClass != $this->modelClass) {
-            return;
-        }
-        if (method_exists($this, $method)) {
-            $response = $this->{$method}(['id' => $id]);
-            if (empty($response->errorMessage)) {
-                $this->dispatch('alert',
-                    type: 'success',  
-                    message: substr($method, 2) . ' done!',   
-                );
-            } else {
-                $this->dispatch('alert',
-                    type: 'error',  
-                    title: 'Error',
-                    message: $response->errorMessage ?? 'Action not executed.',);
-            }
-        } else {
-            throw new \Exception('Method not found.');
-        }
-    }
 }

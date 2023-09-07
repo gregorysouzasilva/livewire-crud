@@ -3,16 +3,16 @@
 namespace Gregorysouzasilva\LivewireCrud;
 
 use App\Livewire\BaseComponent;
+use App\Models\Client;
+use App\Models\ClientContact;
+use Gregorysouzasilva\LivewireCrud\Traits\ActionConfirmations;
+use Gregorysouzasilva\LivewireCrud\Traits\CustomValidations;
 use Gregorysouzasilva\LivewireCrud\Traits\FormTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\LoadData;
 use Gregorysouzasilva\LivewireCrud\Traits\ModalTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\ModelActionsTrait;
-use App\Models\Client;
-use App\Models\ClientContact;
-use App\Models\Service;
-use Livewire\WithPagination;
 use Gregorysouzasilva\LivewireCrud\Traits\RowsTrait;
-use Gregorysouzasilva\LivewireCrud\Traits\CustomValidations;
+use Livewire\WithPagination;
 
 class Crud extends BaseComponent
 {
@@ -22,7 +22,8 @@ class Crud extends BaseComponent
         LoadData,
         CustomValidations,
         RowsTrait,
-        FormTrait;
+        FormTrait,
+        ActionConfirmations;
 
     public $viewPath = 'livewire.crud.';
     protected $paginationTheme = 'bootstrap';
