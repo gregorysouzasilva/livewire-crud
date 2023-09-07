@@ -187,7 +187,7 @@ public function onPageReopen($data) {
     public function actionConfirm($method, $id, $confirmation = null) {
        // if no confirmation is needed, just run the method
          if (empty($confirmation)) {
-              $this->actionRunModel([$method, $id]);
+              $this->actionRunModel($method, $id);
               return;
          }
             $this->dispatch('swal:confirmModel',
@@ -200,12 +200,11 @@ public function onPageReopen($data) {
             );
     }
 
-    public function actionRunModel($array) {
-        if (!empty($array[2]) && $array[2] != $this->modelClass) {
+    public function actionRunModel($method, $id, $modelClass = null) {
+        if (!empty($modelClass) && $modelClass != $this->modelClass) {
             return;
         }
-        $method = $array[0];
-        $id = $array[1];
+
         $model = $this->modelClass::findOrFail($id);
         if (method_exists($model, $method)) {
             $model->{$method}($id);
@@ -225,16 +224,16 @@ public function onPageReopen($data) {
         }
     }
 
-    public function actionRun($array) {
-        if (!empty($array['modelClass']) && $array['modelClass'] != $this->modelClass) {
+    public function actionRun($method, $id, $modelClass = null) {
+        if (!empty($modelClass) && $modelClass != $this->modelClass) {
             return;
         }
-        if (method_exists($this, $array['method'])) {
-            $response = $this->{$array['method']}($array);
+        if (method_exists($this, $method)) {
+            $response = $this->{$method}(['id' => $id]);
             if (empty($response->errorMessage)) {
                 $this->dispatch('alert',
                     type: 'success',  
-                    message: substr($array['method'], 2) . ' done!',   
+                    message: substr($method, 2) . ' done!',   
                 );
             } else {
                 $this->dispatch('alert',
