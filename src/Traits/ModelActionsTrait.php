@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use File;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPSTORM_META\type;
+
 trait ModelActionsTrait {
 
     protected $separator;
@@ -187,14 +189,14 @@ public function onPageReopen($data) {
               $this->actionRunModel([$method, $id]);
               return;
          }
-            $this->dispatch('swal:confirmModel', [
-                'type' => 'warning',
-                'title' => 'Are you sure?',
-                'text' => $confirmation,
-                'id' => $id,
-                'method' => $method,
-                'modelClass' => $this->modelClass ?? '',
-            ]);
+            $this->dispatch('swal:confirmModel',
+                type: 'warning',
+                title: 'Are you sure?',
+                text: $confirmation,
+                id: $id,
+                method: $method,
+                modelClass: $this->modelClass ?? ''
+            );
     }
 
     public function actionRunModel($array) {
