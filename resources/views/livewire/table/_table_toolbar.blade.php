@@ -7,7 +7,7 @@
             {{-- <h3>@lang($pageInfo['title'])</h3> --}}
         @endif
     </div>
-
+    @include('crud::livewire.table.' . '_table_validations')
     <!--begin::Card title-->
     <!--begin::Card toolbar-->
     <div class="card-toolbar">
