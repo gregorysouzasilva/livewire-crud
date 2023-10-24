@@ -173,7 +173,7 @@ trait ModelActionsTrait {
         ]);
     }
 
-    public function prepareModelDataArrayFields() {
+    public function prepareModelJsonFields() {
         // check if each rule is defined in the model
         foreach ($this->rules as $key => $rule) {
             // explode key to check if it is a nested rule
