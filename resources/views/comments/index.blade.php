@@ -12,7 +12,7 @@
             @include($viewPath . 'create')
             @include($viewPath . 'list')
             @if(!empty($relation->checklist_uuid))
-            <a href="{{route('checklist-answer', ['uuid' => $relation->checklist_uuid])}}" class="btn btn-secondary" wire:navigate>@lang("Go back to checklist")</a>
+            <a href="{{route('checklist-answer', ['uuid' => $relation->checklist_uuid])}}" class="btn btn-secondary" wire:navigat>@lang("Go back to checklist")</a>
             @endif
         </div>
         <!--end::Card-->
