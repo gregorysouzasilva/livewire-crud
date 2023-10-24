@@ -6,7 +6,7 @@ $('#{{$field}}').select2({
 });
 $('#{{$field}}').on('change', function (e) {
     var data = $('#{{$field}}').select2('val');
-    @this.set('{{$wirePrefix}}{{$field}}', data);
+    $wire.set('{{$wirePrefix}}{{$field}}', data);
 });
 ">
 <select class="form-select {{$inputClass ?? ''}}"  id="{{$wirePrefix}}{{$field}}">

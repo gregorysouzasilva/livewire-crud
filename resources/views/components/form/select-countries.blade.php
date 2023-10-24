@@ -7,7 +7,7 @@ x-data="{}" x-init="
     });
     $('#{{$field}}').on('change', function (e) {
         var data = $('#{{$field}}').select2('val');
-        @this.set('{{$wirePrefix}}{{$field}}', data);
+        $wire.set('{{$wirePrefix}}{{$field}}', data);
     });
 ">
 @php
