@@ -161,16 +161,32 @@ trait ModelActionsTrait {
             method: 'onPageReopen',
             id: $id,
         );
-}
+    }
 
-public function onPageReopen($data) {
-    $subType = $data['id'];
-    $this->contact->statesRelation()->create([
-        'stateble_type' => 'Member',
-        'sub_type' => $subType,
-        'user_id' => auth()->user()->id,
-        'status' => 'open',
-    ]);
-}
+    public function onPageReopen($data) {
+        $subType = $data['id'];
+        $this->contact->statesRelation()->create([
+            'stateble_type' => 'Member',
+            'sub_type' => $subType,
+            'user_id' => auth()->user()->id,
+            'status' => 'open',
+        ]);
+    }
 
+    public function prepareModelDataArrayFields() {
+        // check if each rule is defined in the model
+        foreach ($this->rules as $key => $rule) {
+            // explode key to check if it is a nested rule
+            $arr = explode('.', $key);
+            if (count($arr) > 2) {
+                $modelName = $arr[0];
+                if (!isset($this->$modelName[$arr[1]])) {
+                    $this->$modelName[$arr[1]] = [];
+                }
+                if (!isset($this->$modelName[$arr[1]][$arr[2]])) {
+                    $this->$modelName[$arr[1]] = array_merge((array)$this->$modelName[$arr[1]], [$arr[2] => null]);
+                }
+            }
+        }
+    }
 }
