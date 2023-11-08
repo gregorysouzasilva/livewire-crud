@@ -1,7 +1,7 @@
 @foreach($collection as $item)
     {{-- @include('crud::livewire.table._table_group_travel') --}}
    
-    <tbody x-data="{ expanded: false }" wire:key="line-{{$item->getKey()}}" wire:poll.50s>
+    <tbody x-data="{ expanded: false }" wire:key="line-{{$item->getKey()}}">
         <tr>
             @if(!empty($tableInfo->hasHidden()))
                 <td><x-button.expand/></td>
