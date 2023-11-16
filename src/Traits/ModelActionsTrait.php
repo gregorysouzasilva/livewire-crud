@@ -4,6 +4,7 @@ namespace Gregorysouzasilva\LivewireCrud\Traits;
 
 use Carbon\Carbon;
 use File;
+use Gregorysouzasilva\LivewireCrud\Crud;
 use Illuminate\Support\Facades\Storage;
 
 trait ModelActionsTrait {
@@ -16,8 +17,9 @@ trait ModelActionsTrait {
 
     public function create()
     {
-        //$this->clearForm();
         $this->model = new $this->modelClass;
+        $this->canAction('create');
+
         if (method_exists($this, 'loadDefaultCreateData')) {
             $this->loadDefaultCreateData();
         }
@@ -59,15 +61,16 @@ trait ModelActionsTrait {
         } else {
             $this->closeModalPopover();
         }
-        //$this->clearForm();
         $this->model = new $this->modelClass;
     }
 
     public function edit($id) {
-        //$this->clearForm();
         $this->model = $this->modelClass::when(!empty($this->client->id), function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id);
+        
+        $this->canAction('edit');
+
         if (method_exists($this, 'loadDefaultEdit')) {
             $this->loadDefaultEdit();
         }
@@ -82,7 +85,6 @@ trait ModelActionsTrait {
     }
 
     public function duplicate($id) {
-        //$this->clearForm();
         $model = $this->modelClass::when($this->client, function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id)->toArray();
@@ -90,6 +92,9 @@ trait ModelActionsTrait {
         unset($model['id']);
         unset($model['uuid']);
         $this->model = $this->modelClass::create($model);
+
+        $this->can('duplicate');
+
         $this->modelId = $this->model->getKey();
         if (empty($this->useModal)) {
             $this->showForm(true);
@@ -117,6 +122,8 @@ trait ModelActionsTrait {
         $this->model = $this->modelClass::when(!empty($this->client), function ($query) {
             $query->where('client_id', $this->client->id);
         })->findOrFail($id);
+
+        $this->canAction('delete');
         
         if (method_exists($this->model, 'hasFile') && $this->model->hasFile()) {
             // Delete file from storage
@@ -142,6 +149,9 @@ trait ModelActionsTrait {
 
    public function onPageComplete($data) {
         $subType = $data['id'];
+
+        $this->canAction('complete');
+
         $this->contact->statesRelation()->create([
             'stateble_type' => 'Member',
             'sub_type' => $subType,
@@ -150,6 +160,10 @@ trait ModelActionsTrait {
         ]);
    }
     public function onPageDismiss($subType) {
+        if (!hasRole('consultant')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $this->contact->statesRelation()->create([
             'stateble_type' => 'Member',
             'sub_type' => $subType,
@@ -168,17 +182,21 @@ trait ModelActionsTrait {
                 'id' => $id,
             ]
         ]);
-}
+    }
 
-public function onPageReopen($data) {
-    $subType = $data['id'];
-    $this->contact->statesRelation()->create([
-        'stateble_type' => 'Member',
-        'sub_type' => $subType,
-        'user_id' => auth()->user()->id,
-        'status' => 'open',
-    ]);
-}
+    public function onPageReopen($data) {
+        if (!hasRole('consultant')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $subType = $data['id'];
+        $this->contact->statesRelation()->create([
+            'stateble_type' => 'Member',
+            'sub_type' => $subType,
+            'user_id' => auth()->user()->id,
+            'status' => 'open',
+        ]);
+    }
 
     // Run model actions
     public function actionConfirm($method, $id, $confirmation = null) {
@@ -205,7 +223,9 @@ public function onPageReopen($data) {
         $method = $array[0];
         $id = $array[1];
         $model = $this->modelClass::findOrFail($id);
+
         if (method_exists($model, $method)) {
+            $this->canAction($method, $model);
             $model->{$method}($id);
             if (empty($model->errorMessage)) {
                 $this->dispatchBrowserEvent('alert', [
@@ -245,5 +265,21 @@ public function onPageReopen($data) {
         } else {
             throw new \Exception('Method not found.');
         }
+    }
+
+    public function canAction($action, $model = null) {
+        if (!$model) {
+            $model = $this->model;
+        } 
+        // for now just model actions are supported
+        if ($model->evalTags($this->pageInfo['permissions'][$action] ?? false)) {
+            return true;
+        }
+        // check if it's action from buttons and if role is set check it
+        $button = collect($this->pageInfo['table']['buttons'] ?? [])->firstWhere('action', $action);
+        if ($button && $model->evalTags($button['show'] ?? false) && hasRole($button['role'] ?? '')) {
+            return true;
+        }
+        abort(403, 'Unauthorized action.');
     }
 }

@@ -82,7 +82,7 @@ trait LoadData {
         //dd($this->collection);
     }
 
-    public function sortBy($field)
+    protected function sortBy($field)
     {
         $this->sortField = $field;
         $this->sortDirection = $this->sortDirection == 'desc' ? 'asc' : 'desc';

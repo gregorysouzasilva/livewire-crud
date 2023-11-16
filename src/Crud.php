@@ -35,7 +35,34 @@ class Crud extends BaseComponent
     public $conditionalFilters;
     public $file = [];
 
-    public $pageInfo = [];
+    public $pageInfo = [
+        'title' => '',
+        'permissions' => [
+            'create' => false,
+            'edit' => false,
+            'table'=> false,
+            'delete' => false,
+            'duplicate' => false,
+            'archive' => false,
+            'complete' => false,
+            'print' => false,
+        ],
+        'table' => [
+            'search_fields' => [],
+            'buttons' => [
+                [
+                    'show' => false,
+                    'action' => '',
+                    'icon' => '',
+                    'label' => '',
+                ],
+            ],
+            'show_id' => false,
+        ],
+        'is_editable' => false,
+        'print_link' => null,
+    ];
+    
     public $tableErrors = [];
     public $condensed = false;
     public $hideCreateButton = false;
