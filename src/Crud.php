@@ -97,8 +97,8 @@ class Crud extends BaseComponent
 
     public function render()
     {
-        $this->Redirects();
         $this->loadPage();
+        $this->Redirects();
         $this->loadData($this->limit);
         $this->loadTable();
 
@@ -125,6 +125,12 @@ class Crud extends BaseComponent
         if ($contactUuid) {
             $this->contact = ClientContact::where('client_id', $this->client->id)->where('uuid', $contactUuid)->firstOrFail();
             $this->routeParams['contact_uuid'] = $contactUuid;
+        }
+
+        $this->routeParams['returnUrl'] = request()->fullUrl();
+
+        if (request()->has('returnUrl')) {
+            $this->returnUrl = request('returnUrl');
         }
     }
 
