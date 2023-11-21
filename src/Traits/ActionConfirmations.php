@@ -90,7 +90,13 @@ trait ActionConfirmations
     {
         if (!$model) {
             $model = $this->model;
-        } 
+        }
+
+        // if action is integer, it's id, return true
+        if (is_numeric($action)) {
+            return true;
+        }
+        
         // for now just model actions are supported
         if ($model->evalTags($this->pageInfo['permissions'][$action] ?? false)) {
             return true;
