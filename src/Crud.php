@@ -9,7 +9,7 @@ use Gregorysouzasilva\LivewireCrud\Traits\ModalTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\ModelActionsTrait;
 use App\Models\Client;
 use App\Models\ClientContact;
-use App\Models\Service;
+use Gregorysouzasilva\LivewireCrud\Traits\ActionConfirmations;
 use Livewire\WithPagination;
 use Gregorysouzasilva\LivewireCrud\Traits\RowsTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\CustomValidations;
@@ -18,6 +18,7 @@ class Crud extends BaseComponent
 {
     use WithPagination,
         ModelActionsTrait,
+        ActionConfirmations,
         ModalTrait,
         LoadData,
         CustomValidations,
