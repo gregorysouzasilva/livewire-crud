@@ -96,7 +96,7 @@ trait ActionConfirmations
         if (is_numeric($action)) {
             return true;
         }
-        if (empty($this->pageInfo)) {
+        if (empty($this->pageInfo['title'])) {
             $this->loadPage();
         }
         // for now just model actions are supported

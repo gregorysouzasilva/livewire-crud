@@ -149,6 +149,8 @@ class Crud extends BaseComponent
             $this->create();
         } else if ((request('action'))) {
             $this->edit(request('action'));
+        } else {
+            $this->loadPage();
         }
     }
 
