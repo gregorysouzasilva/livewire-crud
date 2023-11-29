@@ -97,8 +97,7 @@ class Crud extends BaseComponent
 
     public function render()
     {
-        $this->loadPage();
-        $this->Redirects();
+        $this->redirects();
         $this->loadData($this->limit);
         $this->loadTable();
 
@@ -145,7 +144,7 @@ class Crud extends BaseComponent
         }
     }
 
-    public function Redirects() {
+    public function redirects() {
         if (request('action') == 'create') {
             $this->create();
         } else if ((request('action'))) {

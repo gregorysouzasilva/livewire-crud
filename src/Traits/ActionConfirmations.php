@@ -96,7 +96,9 @@ trait ActionConfirmations
         if (is_numeric($action)) {
             return true;
         }
-        
+        if (empty($this->pageInfo)) {
+            $this->loadPage();
+        }
         // for now just model actions are supported
         if ($model->evalTags($this->pageInfo['permissions'][$action] ?? false)) {
             return true;
