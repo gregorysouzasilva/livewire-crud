@@ -74,7 +74,7 @@ class Crud extends BaseComponent
         $this->loadPage();
         $this->loadData($this->limit);
         $this->loadTable();
-        $this->prepareModelJsonFields();
+        // $this->prepareModelJsonFields();
 
         return view($this->viewPath . 'index', ['collection' => $this->collection])
             ->layout('layout.demo6.master', ['client' => $this->client, 'contact' => $this->contact, 'pageInfo' => $this->pageInfo]);
