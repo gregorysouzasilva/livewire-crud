@@ -20,6 +20,7 @@ switch ($status) {
     case 'paid':
     case 'received':
     case 'deposited':
+    case 'active':
         $color = 'success';
         break;
     case 'confirmed':

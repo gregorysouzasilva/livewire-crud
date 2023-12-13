@@ -5,13 +5,13 @@ namespace Gregorysouzasilva\LivewireCrud\Traits;
 trait TagTrait {
 
     //get all the tags between {} from a string
-    public function getTags($string) {
+    protected function getTags($string) {
         preg_match_all('/\{(.*?)\}/', $string, $matches);
         return $matches[1];
     }
 
     //replace all the tags between {} from a string
-    public function replaceTags($string, $tags) {
+    protected function replaceTags($string, $tags) {
         foreach ($tags as $tag) {
             $string = str_replace('{' . $tag . '}', $this->$tag ?? '', $string);
         }

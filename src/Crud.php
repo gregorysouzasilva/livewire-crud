@@ -18,12 +18,12 @@ class Crud extends BaseComponent
 {
     use WithPagination,
         ModelActionsTrait,
+        ActionConfirmations,
         ModalTrait,
         LoadData,
         CustomValidations,
         RowsTrait,
-        FormTrait,
-        ActionConfirmations;
+        FormTrait;
 
     public $viewPath = 'livewire.crud.';
     protected $paginationTheme = 'bootstrap';
@@ -36,8 +36,35 @@ class Crud extends BaseComponent
     public $conditionalFilters;
     public $file = [];
 
-    public $pageInfo = [];
-    public $tableInfo = [];
+    public $pageInfo = [
+        'title' => '',
+        'permissions' => [
+            'create' => false,
+            'edit' => false,
+            'table'=> false,
+            'delete' => false,
+            'duplicate' => false,
+            'archive' => false,
+            'complete' => false,
+            'print' => false,
+        ],
+        'table' => [
+            'search_fields' => [],
+            'buttons' => [
+                [
+                    'show' => false,
+                    'action' => '',
+                    'icon' => '',
+                    'label' => '',
+                ],
+            ],
+            'show_id' => false,
+        ],
+        'is_editable' => false,
+        'print_link' => null,
+    ];
+    
+    public $tableErrors = [];
     public $condensed = false;
     public $hideCreateButton = false;
     public $routeParams = [];
@@ -70,8 +97,7 @@ class Crud extends BaseComponent
 
     public function render()
     {
-        $this->Redirects();
-        $this->loadPage();
+        $this->redirects();
         $this->loadData($this->limit);
         $this->loadTable();
         // $this->prepareModelJsonFields();
@@ -100,6 +126,12 @@ class Crud extends BaseComponent
             $this->contact = ClientContact::where('client_id', $this->client->id)->where('uuid', $contactUuid)->firstOrFail();
             $this->routeParams['contact_uuid'] = $contactUuid;
         }
+
+        $this->routeParams['returnUrl'] = request()->fullUrl();
+
+        if (request()->has('returnUrl')) {
+            $this->returnUrl = request('returnUrl');
+        }
     }
 
     public function loadRequests($parameters) {
@@ -113,11 +145,13 @@ class Crud extends BaseComponent
         }
     }
 
-    public function Redirects() {
+    public function redirects() {
         if (request('action') == 'create') {
             $this->create();
         } else if ((request('action'))) {
             $this->edit(request('action'));
+        } else {
+            $this->loadPage();
         }
     }
 

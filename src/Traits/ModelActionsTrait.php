@@ -4,7 +4,8 @@ namespace Gregorysouzasilva\LivewireCrud\Traits;
 
 use Illuminate\Support\Facades\Storage;
 
-trait ModelActionsTrait {
+trait ModelActionsTrait
+{
 
     protected $separator;
 
@@ -14,8 +15,9 @@ trait ModelActionsTrait {
 
     public function create()
     {
-        //$this->clearForm();
         $this->model = new $this->modelClass;
+        $this->canAction('create');
+
         if (method_exists($this, 'loadDefaultCreateData')) {
             $this->loadDefaultCreateData();
         }
@@ -32,7 +34,7 @@ trait ModelActionsTrait {
         $this->validate();
 
          // upload file just for one file and field.
-         foreach ($this->files ?? [] as $field => $bucket) {
+        foreach ($this->files ?? [] as $field => $bucket) {
             if (!empty($this->{$field}) && is_array($this->{$field})) {
                 $this->{$field}[0] = $this->{$field}[0]->store($bucket, $bucket);
                 $this->model->{$field} = $this->{$field}[0];
@@ -58,15 +60,19 @@ trait ModelActionsTrait {
         } else {
             $this->closeModalPopover();
         }
-        //$this->clearForm();
         $this->model = new $this->modelClass;
     }
 
-    public function edit($id) {
-        //$this->clearForm();
-        $this->model = $this->modelClass::when(!empty($this->client->id), function ($query) {
-            $query->where('client_id', $this->client->id);
-        })->findOrFail($id);
+    public function edit($id)
+    {
+        $this->model = $this->modelClass::when(
+            !empty($this->client->id), function ($query) {
+                $query->where('client_id', $this->client->id);
+            }
+        )->findOrFail($id);
+        
+        $this->canAction('edit');
+
         if (method_exists($this, 'loadDefaultEdit')) {
             $this->loadDefaultEdit();
         }
@@ -80,15 +86,20 @@ trait ModelActionsTrait {
         $this->action = $this->modelId;
     }
 
-    public function duplicate($id) {
-        //$this->clearForm();
-        $model = $this->modelClass::when($this->client, function ($query) {
-            $query->where('client_id', $this->client->id);
-        })->findOrFail($id)->toArray();
+    public function duplicate($id)
+    {
+        $model = $this->modelClass::when(
+            $this->client, function ($query) {
+                $query->where('client_id', $this->client->id);
+            }
+        )->findOrFail($id)->toArray();
 
         unset($model['id']);
         unset($model['uuid']);
         $this->model = $this->modelClass::create($model);
+
+        $this->can('duplicate');
+
         $this->modelId = $this->model->getKey();
         if (empty($this->useModal)) {
             $this->onShowForm(true);
@@ -96,24 +107,17 @@ trait ModelActionsTrait {
             $this->openModalPopover('create');
         }
     }
-
-    public function deleteConfirm($id) {
-        $this->confirm( 
-            type: 'warning',
-            title: 'Are you sure?',
-            message: 'you are about to delete this record',
-            method: 'onDelete',
-            id: $id,
-            modelClass: $this->modelClass ?? '',
-        );
-    }
     
     public function onDelete($array)
     {
         $id = $array['id'];
-        $this->model = $this->modelClass::when(!empty($this->client), function ($query) {
-            $query->where('client_id', $this->client->id);
-        })->findOrFail($id);
+        $this->model = $this->modelClass::when(
+            !empty($this->client), function ($query) {
+                $query->where('client_id', $this->client->id);
+            }
+        )->findOrFail($id);
+
+        $this->canAction('delete');
         
         if (method_exists($this->model, 'hasFile') && $this->model->hasFile()) {
             // Delete file from storage
@@ -125,68 +129,52 @@ trait ModelActionsTrait {
         //$this->clearForm();
     }
 
-    public function confirmComplete($id) {
-       $this->confirm(
-              type: 'warning',
-              title: 'Are you sure you want to complete?',
-              message: 'Complete action will block ' . $id . ' from further editing for this person.',
-              method: 'onPageComplete',
-              id: $id,
-         );
-   }
-
-   public function onPageComplete($data) {
+    public function onPageComplete($data)
+    {
         $subType = $data['id'];
-        $this->contact->statesRelation()->create([
+
+        $this->canAction('complete');
+
+        $this->contact->statesRelation()->create(
+            [
             'stateble_type' => 'Member',
             'sub_type' => $subType,
             'user_id' => auth()->user()->id,
             'status' => 'completed',
-        ]);
-   }
-    public function onPageDismiss($subType) {
-        $this->contact->statesRelation()->create([
+            ]
+        );
+    }
+    public function onPageDismiss($subType)
+    {
+        if (!hasRole('consultant')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $this->contact->statesRelation()->create(
+            [
             'stateble_type' => 'Member',
             'sub_type' => $subType,
             'user_id' => auth()->user()->id,
             'status' => 'dismissed',
-        ]);
-    }
-
-   public function confirmReopen($id) {
-        $this->confirm(
-            type: 'warning',
-            title: 'Are you sure you want to reopen?',
-            message: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
-            method: 'onPageReopen',
-            id: $id,
+            ]
         );
     }
 
-    public function onPageReopen($data) {
+    public function onPageReopen($data)
+    {
+        if (!hasRole('consultant')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $subType = $data['id'];
-        $this->contact->statesRelation()->create([
+        $this->contact->statesRelation()->create(
+            [
             'stateble_type' => 'Member',
             'sub_type' => $subType,
             'user_id' => auth()->user()->id,
             'status' => 'open',
-        ]);
+            ]
+        );
     }
-
-    public function prepareModelJsonFields() {
-        // check if each rule is defined in the model
-        foreach ($this->rules as $key => $rule) {
-            // explode key to check if it is a nested rule
-            $arr = explode('.', $key);
-            if (count($arr) > 2) {
-                $modelName = $arr[0];
-                if (!isset($this->$modelName[$arr[1]])) {
-                    $this->$modelName[$arr[1]] = [];
-                }
-                if (!isset($this->$modelName[$arr[1]][$arr[2]])) {
-                    $this->$modelName[$arr[1]] = array_merge((array)$this->$modelName[$arr[1]], [$arr[2] => null]);
-                }
-            }
-        }
-    }
+    
 }

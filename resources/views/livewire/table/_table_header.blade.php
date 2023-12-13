@@ -17,6 +17,6 @@
             @endif
             </th>
         @endforeach
-        <th class="col-1">@lang('Actions')</th>
+        <th class="col-sm-3 col-xs-12 col-md-3 col-lg-2 d-md-table-cell d-block">@lang('Actions')</th>
     </tr>
 </thead>
