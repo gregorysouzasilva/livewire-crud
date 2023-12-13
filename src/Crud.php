@@ -63,6 +63,8 @@ class Crud extends BaseComponent
         'is_editable' => false,
         'print_link' => null,
     ];
+
+    public $tableInfo = [];
     
     public $tableErrors = [];
     public $condensed = false;
