@@ -99,7 +99,7 @@ trait ModelActionsTrait
         unset($model['uuid']);
         $this->model = $this->modelClass::create($model);
 
-        $this->can('duplicate');
+        $this->canAction('duplicate');
 
         $this->modelId = $this->model->getKey();
         if (empty($this->useModal)) {
