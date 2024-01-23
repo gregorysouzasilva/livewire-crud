@@ -27,7 +27,7 @@
 
 @elseif($field->type == 'status')
     @if($item->{$field->field})
-    <x-badge-status>{{$item->{$field->field} }}</x-badge-status>
+    <x-badge-status>@lang($item->{$field->field})</x-badge-status>
     @endif
 
 @elseif($field->type == 'email') 
