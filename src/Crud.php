@@ -99,6 +99,7 @@ class Crud extends BaseComponent
 
     public function render()
     {
+        $this->convertBooleanFilters();
         $this->redirects();
         $this->loadData($this->limit);
         $this->loadTable();
@@ -160,5 +161,49 @@ class Crud extends BaseComponent
     public function backDashboard() {
         $service = $this->client->getDefaultService();
         return redirect()->route('clients.dashboard', ['client_uuid' => $this->client->uuid, 'service_id' => $service->id]);
+    }
+
+    public function convertBooleanFilters() {
+        if (!empty($this->filters)) {
+            foreach($this->filters as $key => $value) {
+                // if value is array
+                if (is_array($value)) {
+                    foreach($value as $k => $v) {
+                        if ($v == 'true') {
+                            $this->filters[$key][$k] = true;
+                        } else if ($v == 'false') {
+                            $this->filters[$key][$k] = false;
+                        }
+                    }
+                } else {
+                    if ($value == 'true') {
+                        $this->filters[$key] = true;
+                    } else if ($value == 'false') {
+                        $this->filters[$key] = false;
+                    }
+                }
+            }
+        }
+
+        if (!empty($this->conditionalFilters)) {
+            foreach($this->conditionalFilters as $key => $value) {
+                // if value is array
+                if (is_array($value)) {
+                    foreach($value as $k => $v) {
+                        if ($v == 'true') {
+                            $this->conditionalFilters[$key][$k] = true;
+                        } else if ($v == 'false') {
+                            $this->conditionalFilters[$key][$k] = false;
+                        }
+                    }
+                } else {
+                    if ($value == 'true') {
+                        $this->conditionalFilters[$key] = true;
+                    } else if ($value == 'false') {
+                        $this->conditionalFilters[$key] = false;
+                    }
+                }
+            }
+        }
     }
 }
