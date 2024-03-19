@@ -1,9 +1,7 @@
-<div x-data="{}" x-init="
-    Inputmask({
-        mask : '99/99/9999 99:99',
-        clearIncomplete: true,
-    }).mask('#{{$field}}');" 
-class="form-floating">
-    <input type="text" class="form-control {{$inputClass ?? ''}}" wire:model.lazy="{{$wirePrefix}}{{$field ?? ''}}" id="{{$wirePrefix}}{{$field}}"/>
+@php
+    $id = str_replace('.', '-', $wirePrefix) . '-' . $field;
+@endphp
+<div x-data="{}" x-init="$('#{{$id}}').flatpickr({disableMobile: true, enableTime: true});" class="form-floating">
+    <input type="text" class="form-control {{$inputClass ?? ''}}@if(!empty($disabled))form-control-solid @endif" wire:model.lazy="{{$wirePrefix}}{{$field}}" id="{{$id}}" @if(!empty($disabled))disabled @endif/>
     {{$slot}}
-</div>
+</div> 
