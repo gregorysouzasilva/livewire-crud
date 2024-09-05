@@ -163,10 +163,11 @@ class Crud extends BaseComponent
 
     public function AddFiltersToPrintAndExport() {
         if (!empty($this->pageInfo['print_link'])) {
-            $this->pageInfo['print_link'] = $this->pageInfo['print_link'] . '?' . http_build_query(array_merge($this->filters ?? [], $this->conditionalFilters ?? []));
+            // merge array of filters and conditional filters content
+            $this->pageInfo['print_url'] = $this->pageInfo['print_link'] . '?' . http_build_query(array_merge($this->filters ?? [], $this->conditionalFilters ?? []));
         }
         if (!empty($this->pageInfo['export_link'])) {
-            $this->pageInfo['export_link'] = $this->pageInfo['export_link'] . '?' . http_build_query(array_merge($this->filters ?? [], $this->conditionalFilters ?? []));
+            $this->pageInfo['export_url'] = $this->pageInfo['export_link'] . '?' . http_build_query(array_merge($this->filters ?? [], $this->conditionalFilters ?? []));
         }
     }
 }

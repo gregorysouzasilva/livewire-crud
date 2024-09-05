@@ -40,7 +40,7 @@
 @endif
 @if ($pageInfo['permissions']['export'] ?? false && !empty($pageInfo['export_link'] ?? false))
     <a href="{{$pageInfo['export_url'] ?? ''}}" class="btn btn-light me-3" target="_blank">
-        <i class="bi bi-filetype-csv"></i>Export
+        <i class="bi bi-file-earmark-excel-fill"></i>Export
     </a>
 @endif
 <!--begin::Add -->
