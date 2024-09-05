@@ -62,6 +62,7 @@ class Crud extends BaseComponent
         ],
         'is_editable' => false,
         'print_link' => null,
+        'export_link' => null,
     ];
     
     public $tableErrors = [];
@@ -100,6 +101,7 @@ class Crud extends BaseComponent
         $this->redirects();
         $this->loadData($this->limit);
         $this->loadTable();
+        $this->AddFiltersToPrintAndExport();
 
         return view($this->viewPath . 'index', ['collection' => $this->collection])
             ->layout('layout.demo6.master', ['client' => $this->client, 'contact' => $this->contact, 'pageInfo' => $this->pageInfo]);
@@ -157,5 +159,10 @@ class Crud extends BaseComponent
     public function backDashboard() {
         $service = $this->client->getDefaultService();
         return redirect()->route('clients.dashboard', ['client_uuid' => $this->client->uuid, 'service_id' => $service->id]);
+    }
+
+    public function AddFiltersToPrintAndExport() {
+        $this->pageInfo['print_url'] = $this->pageInfo['print_link'] . '?' . http_build_query(array_merge($this->filters, $this->conditionalFilters));
+        $this->pageInfo['export_url'] = $this->pageInfo['export_link'] . '?' . http_build_query(array_merge($this->filters, $this->conditionalFilters));
     }
 }
