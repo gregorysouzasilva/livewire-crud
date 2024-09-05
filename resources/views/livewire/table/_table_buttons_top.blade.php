@@ -34,12 +34,12 @@
     </button>
 @endif
 @if ($pageInfo['permissions']['print'] ?? false && !empty($pageInfo['print_link'] ?? false))
-    <a href="{{$pageInfo['print_url']}}" class="btn btn-light me-3" target="_blank">
+    <a href="{{$pageInfo['print_url'] ?? ''}}" class="btn btn-light me-3" target="_blank">
         <i class="bi bi-printer"></i>Print
     </a>
 @endif
 @if ($pageInfo['permissions']['export'] ?? false && !empty($pageInfo['export_link'] ?? false))
-    <a href="{{$pageInfo['export_url']}}" class="btn btn-light me-3" target="_blank">
+    <a href="{{$pageInfo['export_url'] ?? ''}}" class="btn btn-light me-3" target="_blank">
         <i class="bi bi-filetype-csv"></i>Export
     </a>
 @endif
