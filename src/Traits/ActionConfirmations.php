@@ -108,6 +108,7 @@ trait ActionConfirmations
             message: 'Reopen will unlock ' . $id . ' for client users editing for this person.',
             method: 'onPageReopen',
             id: $id,
+            modelClass: $this->modelClass ?? '',
         );
     }
 
@@ -119,6 +120,7 @@ trait ActionConfirmations
             message: 'Complete action will block ' . $id . ' from further editing for this person.',
             method: 'onPageComplete',
             id: $id,
+            modelClass: $this->modelClass ?? '',
        );
     }
 
