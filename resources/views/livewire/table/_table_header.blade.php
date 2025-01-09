@@ -1,5 +1,5 @@
 <thead>
-    <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+    <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200 d-sm-table-row d-none">
         @if($tableInfo->hasHidden())
             <th style="width: 75px"></th>
         @endif

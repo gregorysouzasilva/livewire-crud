@@ -1,5 +1,5 @@
 <div class="card-body p-3">
-<table class="table table-striped gy-4 gs-4 table-hover">
+<table class="table table-striped gy-2 gy-sm-4 gs-4 table-hover">
     @include('crud::livewire.table._table_header')
 
     @include('crud::livewire.table._table_body')

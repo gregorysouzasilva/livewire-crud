@@ -1,6 +1,9 @@
 <div class="card-header border-0 p-3">
+    <div class="col-12 col-sm-6">
+        <h2>@lang($pageInfo['title'])</h2>
+    </div>
     @include('crud::livewire.table.' . '_table_validations')
-    <div class="w-50">
+    <div class="col-12 col-sm-6">
         <span class="text-muted fw-semibold fs-7">@lang($pageInfo['description'] ?? '')</span>
         @if(!empty($pageInfo['table']['search_fields']) && empty($condensed))
             @include('crud::livewire.table.' . '_table_search')
