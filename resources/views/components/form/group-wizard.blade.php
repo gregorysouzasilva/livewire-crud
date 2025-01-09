@@ -7,7 +7,15 @@
     @endif
     
     <label class="form-label" style="display: inline">@lang($label)
-        @if(!empty($explanation))<i class="bi bi-question-circle-fill" wire:click="openExplanation({{$explanation}})" style="cursor:pointer " title="Click to open the explanation of this item"></i> @endif </label>
+        @if(!empty($explanation))
+            <button type="button"
+                class="btn btn-light-info btn-icon btn-sm d-sm-inline"
+                wire:click="openExplanation({{ $explanation }})"
+                title="Click to open the explanation of this item"> <i
+                    class="bi bi-question-circle-fill" style="cursor:pointer "></i>
+            </button>
+        @endif 
+    </label>
         <span style="float:right">{{ $slot }}</span>
 
     @if ($type != 'checkbox')
