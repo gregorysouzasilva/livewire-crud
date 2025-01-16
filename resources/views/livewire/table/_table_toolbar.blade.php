@@ -1,5 +1,5 @@
 <div class="card-header border-0 p-3">
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-6 d-block d-lg-none">
         <h2>@lang($pageInfo['title'])</h2>
     </div>
     @include('crud::livewire.table.' . '_table_validations')
