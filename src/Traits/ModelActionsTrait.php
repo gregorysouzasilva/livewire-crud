@@ -119,10 +119,15 @@ trait ModelActionsTrait
 
         $this->canAction('delete');
         
-        if (method_exists($this->model, 'hasFile') && $this->model->hasFile()) {
+        if (method_exists($this->model, 'hasFile') && $this->model->hasFile() && !empty($this->files)) {
             // Delete file from storage
-            $storage = explode('/', $this->model->file);
-            $resp = Storage::disk($storage[0])->delete($this->model->file);
+            foreach ($this->files ?? [] as $field => $bucket) {
+                if (empty($this->model->{$field})) {
+                    continue;
+                }
+                $storage = explode('/', $this->model->{$field});
+                $resp = Storage::disk($storage[0])->delete($this->model->{$field});
+            }
         }
         $this->model->delete();
         
