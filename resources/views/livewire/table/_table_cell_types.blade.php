@@ -32,6 +32,10 @@
 
 @elseif($field->type == 'email') 
     <a href="https://mail.google.com/mail/u/?authuser={{env('MAIL_ADMIN_ADDRESS')}}#search/ {{$item->{$field->field} }}" target="_blank">{{$item->{$field->field} }}</a>
+    <x-button.copy id="email-{{$item->getKey()}}" />
+    <div id="email-{{$item->getKey()}}" style="overflow: hidden;height: 1px;width: 1px;">
+        {{$item->{$field->field} }}
+    </div>
 
 @elseif($field->type == 'phone')
     @php
@@ -45,6 +49,10 @@
         }
     @endphp
     <a href="https://wa.me/{{$phoneNumber}}" target="_blank">{{$item->{$field->field} }}</a>
+    <x-button.copy id="phone-{{$item->getKey()}}" />
+        <div id="phone-{{$item->getKey()}}" style="overflow: hidden;height: 1px;width: 1px;">
+            {{$phoneNumber}}
+        </div>
 @elseif($field->type == 'audio')
     <video>
         <source src="{{$item->full_path }}" type="video/mp4">
