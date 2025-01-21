@@ -29,6 +29,7 @@ trait ActionConfirmations
         }
  
         $model = $this->modelClass::findOrFail($id);
+        // check if method exists in model
         if (method_exists($model, $method)) {
             $this->canAction($method, $model);
             $model->{$method}($id);
@@ -46,7 +47,8 @@ trait ActionConfirmations
                 );
             }
         } else {
-            throw new \Exception('Method not found.');
+            // if method not found in model, try to run it in component
+            $this->actionRun($method, $id, $modelClass);
         }
     }
  
