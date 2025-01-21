@@ -18,6 +18,10 @@
             Livewire.on('clearForm', () => {
                 editor.setData('','')
             })
+            
+            Livewire.on('setForm', (data) => {
+                editor.setData(data,'')
+            })
         })
         .catch( error => {
             console.error( error );
