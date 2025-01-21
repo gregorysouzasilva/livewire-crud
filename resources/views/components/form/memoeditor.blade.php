@@ -20,7 +20,8 @@
             })
             
             Livewire.on('setForm', (data) => {
-                editor.setData(data,'')
+                data = data[0].data
+                editor.setData(data)
             })
         })
         .catch( error => {
