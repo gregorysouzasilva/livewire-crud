@@ -125,16 +125,4 @@ trait ActionConfirmations
             modelClass: $this->modelClass ?? '',
        );
     }
-
-    public function deleteConfirm($id)
-    {
-        $this->confirm( 
-            type: 'warning',
-            title: 'Are you sure?',
-            message: 'you are about to delete this record',
-            method: 'onDelete',
-            id: $id,
-            modelClass: $this->modelClass ?? '',
-        );
-    }
 }

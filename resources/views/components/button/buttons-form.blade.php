@@ -2,8 +2,8 @@
     {{-- left --}}
     <div>
         @if($item->evalTags($pageInfo['permissions']['delete'] ?? true) && !empty($item->getKey()))
-            <button type="button" class="btn btn-danger" wire:click="deleteConfirm('{{ $item->getKey() }}')""><i class="bi bi-x"></i> @lang('Delete')</button>
-        @endif 
+            <button type="button" class="btn btn-danger" wire:confirm="Are you sure you want to delete this item?" wire:click="onDelete('{{ $item->getKey() }}')""><i class="bi bi-x"></i> @lang('Delete')</button>
+        @endif
     </div>
     {{-- right --}}
     <div>
