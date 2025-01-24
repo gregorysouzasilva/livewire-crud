@@ -108,9 +108,8 @@ trait ModelActionsTrait
         }
     }
     
-    public function onDelete($array)
+    public function onDelete($id)
     {
-        $id = $array['id'];
         $this->model = $this->modelClass::when(
             !empty($this->client), function ($query) {
                 $query->where('client_id', $this->client->id);
