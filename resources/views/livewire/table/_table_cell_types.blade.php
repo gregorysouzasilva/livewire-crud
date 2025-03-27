@@ -17,7 +17,10 @@
     {{ money_format($item->{$field->field})}}
 
 @elseif($field->type == 'gravatar' && !empty($item->{$field->field}))
-    <img src="{{'http://www.gravatar.com/avatar/' . md5($item->{$field->field})}}?size=50">   
+    <img src="{{'http://www.gravatar.com/avatar/' . md5($item->{$field->field})}}?size=50">
+
+@elseif($field->type == 'unavatar' && !empty($item->{$field->field}))
+    <img src="{{'https://unavatar.io/' . $item->{$field->field} }}?size=50">
 
 @elseif($field->type == 'comment' && !empty($item->{$field->field}))
     {!! $item->{$field->field} !!} ...
