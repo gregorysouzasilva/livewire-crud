@@ -20,7 +20,7 @@
     <img src="{{'http://www.gravatar.com/avatar/' . md5($item->{$field->field})}}?size=50">
 
 @elseif($field->type == 'unavatar' && !empty($item->{$field->field}))
-    <img src="{{'https://unavatar.io/' . $item->{$field->field} }}?size=50">
+    <img src="{{'https://unavatar.io/' . $item->{$field->field} }}?size=50" style="width: 50px; height: 50px; object-fit: scale-down; border-radius: 5px;">
 
 @elseif($field->type == 'comment' && !empty($item->{$field->field}))
     {!! $item->{$field->field} !!} ...
