@@ -5,7 +5,7 @@
     </div>
     @include('crud::livewire.table.' . '_table_validations')
     <div class="col-12 col-sm-6">
-        <span class="text-muted fw-semibold fs-7">@lang($pageInfo['description'] ?? '')</span>
+        <span class="text-muted fw-semibold fs-7">{!! $pageInfo['description'] ?? '' !!}</span>
         @if(!empty($pageInfo['table']['search_fields']) && empty($condensed))
             @include('crud::livewire.table.' . '_table_search')
         @else

@@ -25,8 +25,14 @@ trait LoadData {
             $this->collection = $this->collection->where('service_id', $this->service->id);
         }
 
-        //Sort
-        if (!empty($this->sortField)) {
+        //SortFields is an array of fields to sort with direction[[field, direction], [field, direction]]
+        if (!empty($this->sortFields)) {
+            foreach($this->sortFields as $fields) {
+                $sortField = $fields[0];
+                $sortDirection = $fields[1];
+                $this->collection = $this->collection->orderBy($sortField, $sortDirection);
+            }
+        } elseif (! empty($this->sortField)) {
             $this->collection = $this->collection->orderBy($this->sortField, $this->sortDirection);
         }
 
