@@ -4,8 +4,13 @@
         <h3>{{$contact['name'] ?? ''}}</h3>
     </div>
     @include('crud::livewire.table.' . '_table_validations')
+
+    @if(!empty($pageInfo['description']))
+        <div class="col-12">
+            <span class="fw-semibold fs-7">{!! $pageInfo['description'] ?? '' !!}</span>
+        </div>
+    @endif
     <div class="col-12 col-sm-6">
-        <span class="text-muted fw-semibold fs-7">{!! $pageInfo['description'] ?? '' !!}</span>
         @if(!empty($pageInfo['table']['search_fields']) && empty($condensed))
             @include('crud::livewire.table.' . '_table_search')
         @else
