@@ -6,7 +6,7 @@
     @include('crud::livewire.table.' . '_table_validations')
 
     @if(!empty($pageInfo['description']))
-        <div class="col-12">
+        <div class="col-12 scroll-visible" style="max-height: 200px;">
             <span class="fw-semibold fs-7">{!! $pageInfo['description'] ?? '' !!}</span>
         </div>
     @endif
