@@ -30,7 +30,7 @@ trait LoadData {
             foreach($this->sortFields as $fields) {
                 $sortField = $fields[0];
                 $sortDirection = $fields[1];
-                $this->collection = $this->collection->orderBy($sortField, $sortDirection);
+                $this->collection = $this->collection->orderByRaw("{$sortField} {$sortDirection}");
             }
         } elseif (! empty($this->sortField)) {
             $this->collection = $this->collection->orderBy($this->sortField, $this->sortDirection);
