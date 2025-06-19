@@ -33,6 +33,14 @@
         {{ $contact->getCurrentStateRelation(class_basename($this->model))->status }}
     </button>
 @endif
+{{-- Add button to AI Validation using wire:click --}}
+@if ($pageInfo['permissions']['validate_ai'] ?? false)
+    <button type="button" wire:click="validateAI"
+        class="btn btn-light-success me-3">
+        <i class="bi bi-check-circle"></i>@lang('Validate AI')
+    </button>
+@endif
+
 @if ($pageInfo['permissions']['print'] ?? false && !empty($pageInfo['print_link'] ?? false))
     <a href="{{$pageInfo['print_link']}}" class="btn btn-light me-3" target="_blank">
         <i class="bi bi-printer"></i>Print
