@@ -4,6 +4,7 @@
         <h3>{{$contact['name'] ?? ''}}</h3>
     </div>
     @include('crud::livewire.table.' . '_table_validations')
+    @includeIf('livewire.validations._history_validation')
 
     @if(!empty($pageInfo['description']))
         <div class="col-12 scroll-visible" style="max-height: 200px;">
