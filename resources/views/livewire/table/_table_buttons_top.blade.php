@@ -11,11 +11,13 @@
             'dismissed',
         ]))
     <button type="button" wire:click="confirmComplete('{{ class_basename($this->model) }}')"
+        wire:attr.disabled="$livewire.isLoading"
         class="btn btn-light-danger me-3">
         <i class="bi bi-lock-fill"></i>@lang('Complete')
     </button>
     @if (hasRole('consultant'))
         <button type="button" wire:click="onPageDismiss('{{ class_basename($this->model) }}')"
+            wire:attr.disabled="$livewire.isLoading"
             class="btn btn-light-danger me-3">
             <i class="bi bi-lock-fill"></i>@lang('Dismiss')
         </button>
@@ -28,6 +30,7 @@
             'dismissed',
         ]))
     <button type="button" wire:click="confirmReopen('{{ class_basename($this->model) }}')"
+        wire:attr.disabled="$livewire.isLoading"
         class="btn btn-light-danger me-3">
         <i class="bi bi-unlock-fill"></i>@lang('Reopen')
         {{ $contact->getCurrentStateRelation(class_basename($this->model))->status }}
@@ -36,6 +39,7 @@
 {{-- Add button to AI Validation using wire:click --}}
 @if ($pageInfo['permissions']['validate_ai'] ?? false)
     <button type="button" wire:click="validateAI"
+        wire:attr.disabled="$livewire.isLoading"
         class="btn btn-light-success me-3">
         <i class="bi bi-check-circle"></i>@lang('Validate AI')
     </button>
