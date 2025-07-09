@@ -89,14 +89,7 @@ class Crud extends BaseComponent
     public $sortDirection = 'desc';
     public $limit = 50;
 
-    public function mount()
-    {   
-        $this->model = new $this->tela['model_class'];
-        $this->modelClass = $this->tela['model_class'];
-
-        $this->loadClient();
-    }
-
+    // to use lazload we need to get route param from mount() on each component
     public function render()
     {
         $this->convertBooleanFilters();
