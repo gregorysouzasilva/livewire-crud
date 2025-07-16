@@ -96,6 +96,14 @@ class Crud extends BaseComponent
         $this->loadClient();
     }
 
+    public function hydrate() {
+        $this->loadDefaultProperties();
+    }
+
+    public function loadDefaultProperties() {
+        
+    }
+
     public function render()
     {
         $this->redirects();
