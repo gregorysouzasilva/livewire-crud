@@ -13,6 +13,7 @@ use Gregorysouzasilva\LivewireCrud\Traits\ModalTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\ModelActionsTrait;
 use Gregorysouzasilva\LivewireCrud\Traits\RowsTrait;
 use Livewire\WithPagination;
+use Livewire\Attributes\Locked;
 
 class Crud extends BaseComponent
 {
@@ -25,18 +26,22 @@ class Crud extends BaseComponent
         RowsTrait,
         FormTrait;
 
-    public $viewPath = 'livewire.crud.';
-    protected $paginationTheme = 'bootstrap';
+    #[Locked]
+    public string $viewPath = 'livewire.crud.';
+    
+    #[Locked]
+    protected string $paginationTheme = 'bootstrap';
 
     public $model;
     protected $collection;
 
-    public $search = '';
-    public $filters;
-    public $conditionalFilters;
-    public $file = [];
+    public string $search = '';
+    public array $filters = [];
+    public array $conditionalFilters = [];
+    public array $file = [];
 
-    public $pageInfo = [
+    #[Locked]
+    public array $pageInfo = [
         'title' => '',
         'permissions' => [
             'create' => false,
@@ -65,30 +70,29 @@ class Crud extends BaseComponent
         'export_link' => null,
     ];
 
-    public $tableInfo = [];
-    
-    public $tableErrors = [];
-    public $condensed = false;
-    public $hideCreateButton = false;
-    public $routeParams = [];
+    #[Locked]
+    public array $tableInfo = [];
 
-    public $clientId = null;
-    public $clientUuid = null;
-    public $serviceId = null;
-    public $client = null;
-    public $contact = null;
-    public $service = null;
+    public array $tableErrors = [];
+    public bool $condensed = false;
+    public bool $hideCreateButton = false;
+    public array $routeParams = [];
 
-    public $showForm = false;
-    public $returnUrl;
+    public ?string $clientUuid = null;
+    public ?Client $client = null;
+    public ?ClientContact $contact = null;
+    public ?Service $service = null;
 
-    protected $queryString = ['filters', 'conditionalFilters', 'search'];
+    public bool $showForm = false;
+    public ?string $returnUrl = null;
 
-    protected $listeners = ['actionRunModel' => 'actionRunModel', 'actionRun' => 'actionRun'];
+    protected array $queryString = ['filters', 'conditionalFilters', 'search'];
 
-    public $sortField = '';
-    public $sortDirection = 'desc';
-    public $limit = 50;
+    protected array $listeners = ['actionRunModel' => 'actionRunModel', 'actionRun' => 'actionRun'];
+
+    public string $sortField = '';
+    public string $sortDirection = 'desc';
+    public int $limit = 50;
 
     public function hydrate() {
         $this->loadDefaultProperties();
@@ -122,7 +126,6 @@ class Crud extends BaseComponent
         $this->clientUuid = request()->route()->parameter('client_uuid') ?? null;
         if ($this->clientUuid) {
             $this->client = Client::where('uuid', $this->clientUuid)->firstOrFail();
-            $this->clientId = $this->client->id;
             $this->routeParams['client_uuid'] = $this->clientUuid;
         }
 
