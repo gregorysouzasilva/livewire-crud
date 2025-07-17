@@ -2,6 +2,7 @@
 
 namespace Gregorysouzasilva\LivewireCrud;
 
+use App\Libs\Crud\Table;
 use App\Livewire\BaseComponent;
 use App\Models\Client;
 use App\Models\ClientContact;
@@ -71,7 +72,7 @@ class Crud extends BaseComponent
     ];
 
     #[Locked]
-    public array $tableInfo = [];
+    public Table $tableInfo;
 
     public array $tableErrors = [];
     public bool $condensed = false;
@@ -79,9 +80,6 @@ class Crud extends BaseComponent
     public array $routeParams = [];
 
     public ?string $clientUuid = null;
-    public ?Client $client = null;
-    public ?ClientContact $contact = null;
-    public ?Service $service = null;
 
     public bool $showForm = false;
     public ?string $returnUrl = null;
@@ -122,36 +120,36 @@ class Crud extends BaseComponent
         $this->sortDirection = $this->sortDirection == 'desc' ? 'asc' : 'desc';
     }
 
-    public function loadClient() {
-        $this->clientUuid = request()->route()->parameter('client_uuid') ?? null;
-        if ($this->clientUuid) {
-            $this->client = Client::where('uuid', $this->clientUuid)->firstOrFail();
-            $this->routeParams['client_uuid'] = $this->clientUuid;
-        }
+    // public function loadClient() {
+    //     $this->clientUuid = request()->route()->parameter('client_uuid') ?? null;
+    //     if ($this->clientUuid) {
+    //         $this->client = Client::where('uuid', $this->clientUuid)->firstOrFail();
+    //         $this->routeParams['client_uuid'] = $this->clientUuid;
+    //     }
 
-        $contactUuid = request()->route()->parameter('contact_uuid') ?? null;
-        if ($contactUuid) {
-            $this->contact = ClientContact::where('client_id', $this->client->id)->where('uuid', $contactUuid)->firstOrFail();
-            $this->routeParams['contact_uuid'] = $contactUuid;
-        }
+    //     $contactUuid = request()->route()->parameter('contact_uuid') ?? null;
+    //     if ($contactUuid) {
+    //         $this->contact = ClientContact::where('client_id', $this->client->id)->where('uuid', $contactUuid)->firstOrFail();
+    //         $this->routeParams['contact_uuid'] = $contactUuid;
+    //     }
 
-        $this->routeParams['returnUrl'] = request()->fullUrl();
+    //     $this->routeParams['returnUrl'] = request()->fullUrl();
 
-        if (request()->has('returnUrl')) {
-            $this->returnUrl = request('returnUrl');
-        }
-    }
+    //     if (request()->has('returnUrl')) {
+    //         $this->returnUrl = request('returnUrl');
+    //     }
+    // }
 
-    public function loadRequests($parameters) {
-        foreach($parameters as $parameter) {
-            if (!empty(request($parameter))) {
-                $this->$parameter = request($parameter);
-                if ($parameter == 'client_id') {
-                    $this->client = Client::where('id', $this->client_id)->select(['uuid', 'name'])->firstOrFail();
-                }
-            }
-        }
-    }
+    // public function loadRequests($parameters) {
+    //     foreach($parameters as $parameter) {
+    //         if (!empty(request($parameter))) {
+    //             $this->$parameter = request($parameter);
+    //             if ($parameter == 'client_id') {
+    //                 $this->client = Client::where('id', $this->client_id)->select(['uuid', 'name'])->firstOrFail();
+    //             }
+    //         }
+    //     }
+    // }
 
     public function redirects() {
         if (request('action') == 'create') {
