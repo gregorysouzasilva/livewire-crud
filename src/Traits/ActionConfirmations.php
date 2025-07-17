@@ -96,7 +96,8 @@ trait ActionConfirmations
         }
         // check if it's action from buttons and if role is set check it
         $button = collect($this->pageInfo['table']['buttons'] ?? [])->firstWhere('action', $action);
-        if ($button && $model->evalTags($button['show'] ?? false) && hasRole($button['role'] ?? '')) {
+        if ($button && $model->evalTags($button['show'] ?? false) 
+            && (!empty($button['role']) && hasRole($button['role'] ?? '') || empty($button['role'])) ) {
             return true;
         }
         abort(403, 'Unauthorized action.');

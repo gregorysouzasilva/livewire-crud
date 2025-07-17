@@ -62,6 +62,7 @@ class Crud extends BaseComponent
         ],
         'is_editable' => false,
         'print_link' => null,
+        'export_link' => null,
     ];
 
     public $tableInfo = [];
@@ -89,7 +90,14 @@ class Crud extends BaseComponent
     public $sortDirection = 'desc';
     public $limit = 50;
 
-    // to use lazload we need to get route param from mount() on each component
+    public function hydrate() {
+        $this->loadDefaultProperties();
+    }
+
+    public function loadDefaultProperties() {
+        
+    }
+
     public function render()
     {
         $this->convertBooleanFilters();
@@ -97,6 +105,7 @@ class Crud extends BaseComponent
         $this->loadData($this->limit);
         $this->loadTable();
         // $this->prepareModelJsonFields();
+        $this->AddFiltersToPrintAndExport();
 
         return view($this->viewPath . 'index', ['collection' => $this->collection])
             ->layout('layout.demo6.master', ['client' => $this->client, 'contact' => $this->contact, 'pageInfo' => $this->pageInfo]);
@@ -197,6 +206,16 @@ class Crud extends BaseComponent
                     }
                 }
             }
+        }
+    }
+
+    public function AddFiltersToPrintAndExport() {
+        if (!empty($this->pageInfo['print_link'])) {
+            // merge array of filters and conditional filters content
+            $this->pageInfo['print_url'] = $this->pageInfo['print_link'] . '?' . http_build_query(array_merge($this->filters ?? [], $this->conditionalFilters ?? []));
+        }
+        if (!empty($this->pageInfo['export_link'])) {
+            $this->pageInfo['export_url'] = $this->pageInfo['export_link'] . '?' . http_build_query(array_merge($this->filters ?? [], $this->conditionalFilters ?? []));
         }
     }
 }
