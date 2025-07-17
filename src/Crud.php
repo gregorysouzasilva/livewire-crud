@@ -86,9 +86,9 @@ class Crud extends BaseComponent
     public bool $showForm = false;
     public ?string $returnUrl = null;
 
-    protected array $queryString = ['filters', 'conditionalFilters', 'search'];
+    protected $queryString = ['filters', 'conditionalFilters', 'search'];
 
-    protected array $listeners = ['actionRunModel' => 'actionRunModel', 'actionRun' => 'actionRun'];
+    protected $listeners = ['actionRunModel' => 'actionRunModel', 'actionRun' => 'actionRun'];
 
     public string $sortField = '';
     public string $sortDirection = 'desc';
