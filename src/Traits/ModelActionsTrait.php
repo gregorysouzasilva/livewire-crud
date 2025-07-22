@@ -31,6 +31,10 @@ trait ModelActionsTrait
 
     public function store()
     {
+        if (method_exists($this, 'beforeStore')) {
+            $this->beforeValidate();
+        }
+
         $this->validate();
 
          // upload file just for one file and field.
@@ -43,7 +47,11 @@ trait ModelActionsTrait
                 $this->model->{$field} = $this->{$field};
             }
         }
-        
+
+        if (method_exists($this, 'beforeStore')) {
+            $this->beforeStore();
+        }
+
         $this->model->save();
         $this->toastr( 
             type: 'success',
