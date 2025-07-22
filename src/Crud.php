@@ -36,6 +36,8 @@ class Crud extends BaseComponent
     public $model;
     protected $collection;
 
+    public ?Client $client = null;
+
     public string $search = '';
     public array $filters = [];
     public array $conditionalFilters = [];
@@ -73,6 +75,9 @@ class Crud extends BaseComponent
 
     #[Locked]
     public Table $tableInfo;
+
+    #[Locked]
+    public array $pageHeader = [];
 
     public array $tableErrors = [];
     public bool $condensed = false;
