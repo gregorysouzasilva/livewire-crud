@@ -101,7 +101,7 @@ class Crud extends BaseComponent
         $this->loadDefaultProperties();
     }
 
-    public function loadDefaultProperties() {
+    protected function loadDefaultProperties() {
         
     }
 

@@ -73,11 +73,6 @@ trait ModelActionsTrait
         
         $this->canAction('edit');
 
-        // load client model from model if there is a client_id field
-        if (!empty($this->model->client_id) && !empty($this->model->client)) {
-            $this->client = $this->model->client;
-        }
-
         if (method_exists($this, 'loadDefaultEdit')) {
             $this->loadDefaultEdit();
         }
