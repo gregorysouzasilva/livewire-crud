@@ -52,7 +52,26 @@ trait ModelActionsTrait
             $this->beforeStore();
         }
 
-        $this->model->save();
+        if (!$this->model->save()) {
+            $this->toastr(
+                type: 'error',
+                title: 'Error',
+                message: 'There was an error saving the record.'
+            );
+            return;
+        }
+
+        if (method_exists($this, 'afterSave')) {
+            if (!$this->afterSave()) {
+                $this->toastr(
+                    type: 'error',
+                    title: 'Error',
+                    message: 'There was an error saving the record.'
+                );
+                return;
+            }
+        }
+
         $this->toastr( 
             type: 'success',
             title: 'Success',
