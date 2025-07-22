@@ -31,7 +31,7 @@ trait ModelActionsTrait
 
     public function store()
     {
-        if (method_exists($this, 'beforeStore')) {
+        if (method_exists($this, 'beforeValidate')) {
             $this->beforeValidate();
         }
 
