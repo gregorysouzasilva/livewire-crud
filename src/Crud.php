@@ -110,7 +110,7 @@ class Crud extends BaseComponent
         $this->AddFiltersToPrintAndExport();
 
         return view($this->viewPath . 'index', ['collection' => $this->collection])
-            ->layout('layout.demo6.master', ['client' => $this->client, 'contact' => $this->contact, 'pageInfo' => $this->pageInfo, 'pageHeader' => $this->pageHeader]);
+            ->layout('layout.demo6.master', ['pageInfo' => $this->pageInfo, 'pageHeader' => $this->pageHeader]);
     }
 
 
