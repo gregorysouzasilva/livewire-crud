@@ -6,22 +6,24 @@ use App\Models\Client;
 
 trait LoadData {
 
+    protected array $ignoreFilters = [];
+
     protected function loadData($limit = 50) {
 
         $this->collection = $this->modelClass::select($this->model->getTable() . '.*');
 
         // // if request route has client_id, filter by client_id
-        if (!empty($this->client->id)) {
+        if (!empty($this->client->id) && !in_array('client_id', $this->ignoreFilters)) {
             $this->collection = $this->collection->where('client_id', $this->client->id);
         }
 
         // if request has contact_id, filter by contact_id
-        if (!empty($this->contact->id)) {
+        if (!empty($this->contact->id) && !in_array('client_contact_id', $this->ignoreFilters)) {
             $this->collection = $this->collection->where('client_contact_id', $this->contact->id);
         }
 
         // if request has service id, filter by service_id
-        if (!empty($this->service->id)) {
+        if (!empty($this->service->id) && !in_array('service_id', $this->ignoreFilters)) {
             $this->collection = $this->collection->where('service_id', $this->service->id);
         }
 
@@ -92,6 +94,11 @@ trait LoadData {
     {
         $this->sortField = $field;
         $this->sortDirection = $this->sortDirection == 'desc' ? 'asc' : 'desc';
+    }
+
+    protected function setIgnoreFilters(array $filters)
+    {
+        $this->ignoreFilters = $filters;
     }
     
 }

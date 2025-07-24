@@ -82,28 +82,19 @@ class Crud extends BaseComponent
     public array $tableErrors = [];
     public bool $condensed = false;
     public bool $hideCreateButton = false;
-    public array $routeParams = [];
 
     public ?string $clientUuid = null;
 
     public bool $showForm = false;
     public ?string $returnUrl = null;
 
-    protected $queryString = ['filters', 'conditionalFilters', 'search'];
+    protected $queryString = ['filters', 'conditionalFilters', 'search', 'action'];
 
     protected $listeners = ['actionRunModel' => 'actionRunModel', 'actionRun' => 'actionRun'];
 
     public string $sortField = '';
     public string $sortDirection = 'desc';
     public int $limit = 50;
-
-    public function hydrate() {
-        $this->loadDefaultProperties();
-    }
-
-    protected function loadDefaultProperties() {
-        
-    }
 
     public function render()
     {
