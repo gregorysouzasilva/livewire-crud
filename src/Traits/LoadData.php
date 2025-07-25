@@ -14,17 +14,17 @@ trait LoadData {
 
         // // if request route has client_id, filter by client_id
         if (!empty($this->client->id) && !in_array('client_id', $this->ignoreFilters)) {
-            $this->collection = $this->collection->where('client_id', $this->client->id);
+            $this->collection = $this->collection->where($this->model->getTable() . '.client_id', $this->client->id);
         }
 
         // if request has contact_id, filter by contact_id
         if (!empty($this->contact->id) && !in_array('client_contact_id', $this->ignoreFilters)) {
-            $this->collection = $this->collection->where('client_contact_id', $this->contact->id);
+            $this->collection = $this->collection->where($this->model->getTable() . '.client_contact_id', $this->contact->id);
         }
 
         // if request has service id, filter by service_id
         if (!empty($this->service->id) && !in_array('service_id', $this->ignoreFilters)) {
-            $this->collection = $this->collection->where('service_id', $this->service->id);
+            $this->collection = $this->collection->where($this->model->getTable() . '.service_id', $this->service->id);
         }
 
         //SortFields is an array of fields to sort with direction[[field, direction], [field, direction]]
