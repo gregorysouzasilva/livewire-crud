@@ -10,7 +10,8 @@
             'completed',
             'dismissed',
         ]))
-    <button type="button" wire:click="confirmComplete('{{ class_basename($this->model) }}')"
+    <button type="button" wire:click="onPageComplete('{{ class_basename($this->model) }}')"
+        wire:confirm="Are you sure you want to complete? Complete action will block {{ class_basename($this->model) }} from further editing for this person."
         wire:attr.disabled="$livewire.isLoading"
         class="btn btn-light-danger me-3">
         <i class="bi bi-lock-fill"></i>@lang('Complete')
@@ -29,7 +30,8 @@
             'completed',
             'dismissed',
         ]))
-    <button type="button" wire:click="confirmReopen('{{ class_basename($this->model) }}')"
+    <button type="button" wire:click="onPageReopen('{{ class_basename($this->model) }}')"
+        wire:confirm="Are you sure you want to reopen? Reopen will unlock {{ class_basename($this->model) }} for client users editing for this person."
         wire:attr.disabled="$livewire.isLoading"
         class="btn btn-light-danger me-3">
         <i class="bi bi-unlock-fill"></i>@lang('Reopen')
