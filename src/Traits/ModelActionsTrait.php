@@ -9,10 +9,6 @@ trait ModelActionsTrait
 
     protected $separator;
 
-    public $rules = [
-        'client' => 'nullable',
-    ];
-
     public function create()
     {
         $this->model = new $this->modelClass;
