@@ -34,12 +34,13 @@ trait ModelActionsTrait
         $this->validate();
 
          // upload file just for one file and field.
+        $path = env('APP_TENANT') ? env('APP_TENANT') . '/' : '';
         foreach ($this->files ?? [] as $field => $bucket) {
             if (!empty($this->{$field}) && is_array($this->{$field})) {
-                $this->{$field}[0] = $this->{$field}[0]->store($bucket, $bucket);
+                $this->{$field}[0] = $this->{$field}[0]->store($path . $bucket, $bucket);
                 $this->model->{$field} = $this->{$field}[0];
             } elseif(!empty($this->{$field})) {
-                $this->{$field} = $this->{$field}->store($bucket, $bucket);
+                $this->{$field} = $this->{$field}->store($path . $bucket, $bucket);
                 $this->model->{$field} = $this->{$field};
             }
         }
