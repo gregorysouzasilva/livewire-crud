@@ -26,7 +26,13 @@
     {!! $item->{$field->field} !!} ...
 
 @elseif($field->type == 'boolean')
-    @if($item->{$field->field})<i class="bi bi-check-circle fs-2" style="color:green"></i>@else <i class="bi bi-x-circle fs-2" style="color:red"></i>@endif      
+    @if(is_null($item->{$field->field}))
+        {{-- Show nothing for null values --}}
+    @elseif($item->{$field->field} === true)
+        <i class="bi bi-check-circle fs-2" style="color:green"></i>
+    @elseif($item->{$field->field} === false)
+        <i class="bi bi-x-circle fs-2" style="color:red"></i>
+    @endif
 
 @elseif($field->type == 'status')
     @if($item->{$field->field})
