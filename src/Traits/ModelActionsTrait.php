@@ -239,16 +239,17 @@ trait ModelActionsTrait
 
     public function loadPageHeaderFromModel()
     {
-        if (empty($this->model)) {
+        // empty for model key not uuid
+        if (empty($this->model) || $this->model->getKeyName() !== 'uuid') {
             return;
         }
         if (empty($this->service) && $this->model->has('service')) {
             $this->service = $this->model->service;
         }
         $this->routeParams['service_id'] = $this->service->id ?? null;
-        $this->routeParams['client_uuid'] = $this->service->client_uuid ?? null;
+        $this->routeParams['client_uuid'] = $this->service->client->uuid ?? null;
         $this->pageHeader['title'] = $this->service->client->name;
-        $this->pageHeader['url'] = route('clients.index', ['client_uuid' => $this->service->client_uuid, 'service_id' => $this->service->id]);
+        $this->pageHeader['url'] = route('clients.index', ['client_uuid' => $this->service->client->uuid, 'service_id' => $this->service->id]);
     }
 
 }
