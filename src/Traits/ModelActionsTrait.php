@@ -109,8 +109,6 @@ trait ModelActionsTrait
             $this->loadDefaultEdit();
         }
 
-        $this->loadPageHeaderFromModel();
-
         $this->modelId = $this->model->getKey();
         $this->routeParams['uuid'] = $this->model->uuid;
 
@@ -235,21 +233,6 @@ trait ModelActionsTrait
             'status' => 'open',
             ]
         );
-    }
-
-    public function loadPageHeaderFromModel()
-    {
-        // empty for model key not uuid
-        if (empty($this->model) || $this->model->getKeyName() !== 'uuid') {
-            return;
-        }
-        if (empty($this->service) && $this->model->has('service')) {
-            $this->service = $this->model->service;
-        }
-        $this->routeParams['service_id'] = $this->service->id ?? null;
-        $this->routeParams['client_uuid'] = $this->service->client->uuid ?? null;
-        $this->pageHeader['title'] = $this->service->client->name;
-        $this->pageHeader['url'] = route('clients.index', ['client_uuid' => $this->service->client->uuid, 'service_id' => $this->service->id]);
     }
 
 }
