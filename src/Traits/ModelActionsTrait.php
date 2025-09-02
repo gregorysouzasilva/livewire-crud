@@ -108,8 +108,12 @@ trait ModelActionsTrait
         if (method_exists($this, 'loadDefaultEdit')) {
             $this->loadDefaultEdit();
         }
+
+        $this->loadPageHeaderFromModel();
+
         $this->modelId = $this->model->getKey();
         $this->routeParams['uuid'] = $this->model->uuid;
+
         if (empty($this->useModal)) {
             $this->onShowForm(true);
         } else {
@@ -139,6 +143,10 @@ trait ModelActionsTrait
         $this->model = $this->modelClass::create($model);
 
         $this->canAction('duplicate');
+
+        if (method_exists($this, 'loadDefaultEdit')) {
+            $this->loadDefaultEdit();
+        }
 
         $this->modelId = $this->model->getKey();
         if (empty($this->useModal)) {
@@ -228,5 +236,19 @@ trait ModelActionsTrait
             ]
         );
     }
-    
+
+    public function loadPageHeaderFromModel()
+    {
+        if (empty($this->model)) {
+            return;
+        }
+        if (empty($this->service) && $this->model->has('service')) {
+            $this->service = $this->model->service;
+        }
+        $this->routeParams['service_id'] = $this->service->id ?? null;
+        $this->routeParams['client_uuid'] = $this->service->client_uuid ?? null;
+        $this->pageHeader['title'] = $this->service->client->name;
+        $this->pageHeader['url'] = route('clients.index', ['client_uuid' => $this->service->client_uuid, 'service_id' => $this->service->id]);
+    }
+
 }
