@@ -90,8 +90,16 @@ trait ModelActionsTrait
     public function edit($id)
     {
         $this->model = $this->modelClass::when(
-            !empty($this->client->id), function ($query) {
+            !empty($this->client->id) && !in_array('client_id', $this->ignoreFilters), function ($query) {
                 $query->where('client_id', $this->client->id);
+            }
+        )->when(
+            !empty($this->client_contact->id) && !in_array('client_contact_id', $this->ignoreFilters), function ($query) {
+                $query->where('client_contact_id', $this->client_contact->id);
+            }
+        )->when(
+            !empty($this->service->id) && !in_array('service_id', $this->ignoreFilters), function ($query) {
+                $query->where('service_id', $this->service->id);
             }
         )->findOrFail($id);
         
@@ -113,8 +121,16 @@ trait ModelActionsTrait
     public function duplicate($id)
     {
         $model = $this->modelClass::when(
-            $this->client, function ($query) {
+            !empty($this->client->id) && !in_array('client_id', $this->ignoreFilters), function ($query) {
                 $query->where('client_id', $this->client->id);
+            }
+        )->when(
+            !empty($this->client_contact->id) && !in_array('client_contact_id', $this->ignoreFilters), function ($query) {
+                $query->where('client_contact_id', $this->client_contact->id);
+            }
+        )->when(
+            !empty($this->service->id) && !in_array('service_id', $this->ignoreFilters), function ($query) {
+                $query->where('service_id', $this->service->id);
             }
         )->findOrFail($id)->toArray();
 
@@ -135,8 +151,16 @@ trait ModelActionsTrait
     public function onDelete($id)
     {
         $this->model = $this->modelClass::when(
-            !empty($this->client), function ($query) {
+            !empty($this->client->id) && !in_array('client_id', $this->ignoreFilters), function ($query) {
                 $query->where('client_id', $this->client->id);
+            }
+        )->when(
+            !empty($this->client_contact->id) && !in_array('client_contact_id', $this->ignoreFilters), function ($query) {
+                $query->where('client_contact_id', $this->client_contact->id);
+            }
+        )->when(
+            !empty($this->service->id) && !in_array('service_id', $this->ignoreFilters), function ($query) {
+                $query->where('service_id', $this->service->id);
             }
         )->findOrFail($id);
 
