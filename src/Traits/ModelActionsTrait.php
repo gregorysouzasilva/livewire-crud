@@ -187,10 +187,8 @@ trait ModelActionsTrait
         //$this->clearForm();
     }
 
-    public function onPageComplete($data)
+    public function onPageComplete($subType)
     {
-        $subType = $data['id'];
-
         $this->canAction('complete');
 
         $this->contact->statesRelation()->create(
@@ -218,13 +216,12 @@ trait ModelActionsTrait
         );
     }
 
-    public function onPageReopen($data)
+    public function onPageReopen($subType)
     {
         if (!hasRole('consultant')) {
             abort(403, 'Unauthorized action.');
         }
 
-        $subType = $data['id'];
         $this->contact->statesRelation()->create(
             [
             'stateble_type' => 'Member',
