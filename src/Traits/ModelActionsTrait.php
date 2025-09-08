@@ -199,6 +199,8 @@ trait ModelActionsTrait
             'status' => 'completed',
             ]
         );
+
+        $this->contact->refresh();
     }
     public function onPageDismiss($subType)
     {
@@ -214,6 +216,8 @@ trait ModelActionsTrait
             'status' => 'dismissed',
             ]
         );
+
+        $this->contact->refresh();
     }
 
     public function onPageReopen($subType)
@@ -230,6 +234,7 @@ trait ModelActionsTrait
             'status' => 'open',
             ]
         );
-    }
 
+        $this->contact->refresh();
+    }
 }
