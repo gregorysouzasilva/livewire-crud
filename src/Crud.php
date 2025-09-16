@@ -99,10 +99,10 @@ class Crud extends BaseComponent
     public function render()
     {
         $this->convertBooleanFilters();
-        $this->redirects();
-        $this->loadData($this->limit);
-        $this->loadTable();
-        // $this->prepareModelJsonFields();
+        if (!$this->redirects()) {
+            $this->loadData($this->limit);
+            $this->loadTable();
+        }
         $this->AddFiltersToPrintAndExport();
 
         return view($this->viewPath . 'index', ['collection' => $this->collection])
@@ -147,8 +147,10 @@ class Crud extends BaseComponent
     public function redirects() {
         if (request('action') == 'create') {
             $this->create();
+            return true;
         } else if ((request('action'))) {
             $this->edit(request('action'));
+            return true;
         } else {
             $this->loadPage();
         }
