@@ -101,8 +101,8 @@ class Crud extends BaseComponent
         $this->convertBooleanFilters();
         if (!$this->redirects()) {
             $this->loadData($this->limit);
-            $this->loadTable();
         }
+        $this->loadTable();
         $this->AddFiltersToPrintAndExport();
 
         return view($this->viewPath . 'index', ['collection' => $this->collection])
