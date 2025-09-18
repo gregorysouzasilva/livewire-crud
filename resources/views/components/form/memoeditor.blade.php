@@ -23,6 +23,11 @@
                 data = data[0].data
                 editor.setData(data)
             })
+
+            // Register with unsaved changes detection
+            if (typeof window.UnsavedChanges !== 'undefined') {
+                window.UnsavedChanges.registerCKEditor('{{$id}}', editor);
+            }
         })
         .catch( error => {
             console.error( error );
