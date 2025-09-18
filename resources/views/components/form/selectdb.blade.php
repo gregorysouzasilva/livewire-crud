@@ -1,13 +1,24 @@
 @props(['field','options', 'wirePrefix', 'value'])
 <div class="form-floating" wire:ignore x-data="{}" x-init="
-$('#{{$field}}').select2({
-    allowClear: true,
-    placeholder: 'Select'
-});
-$('#{{$field}}').on('change', function (e) {
-    var data = $('#{{$field}}').select2('val');
-    $wire.set('{{$wirePrefix}}{{$field}}', data);
-});
+    $('#{{$field}}').select2({
+        allowClear: true,
+        placeholder: 'Select'
+    });
+
+    $('#{{$field}}').on('change', function (e) {
+        var data = $('#{{$field}}').select2('val');
+        $wire.set('{{$wirePrefix}}{{$field}}', data);
+
+        // Directly call unsaved changes check
+        if (typeof window.UnsavedChanges !== 'undefined') {
+            window.UnsavedChanges.check();
+        }
+    });
+
+    // Register with unsaved changes detection
+    if (typeof window.UnsavedChanges !== 'undefined') {
+        window.UnsavedChanges.registerSelect2('{{$field}}');
+    }
 ">
 <select class="form-select {{$inputClass ?? ''}}"  id="{{$wirePrefix}}{{$field}}">
     <option></option>

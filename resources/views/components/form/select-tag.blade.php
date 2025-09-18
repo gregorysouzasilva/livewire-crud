@@ -7,10 +7,21 @@
             tags: true,
             dropdownParent: $('#{{$id}}').parent()
         });
+
         $('#{{$id}}').on('change', function (e) {
             var data = $('#{{$id}}').select2('val');
             $wire.set('{{$wirePrefix}}{{$field}}', data);
+
+            // Directly call unsaved changes check
+            if (typeof window.UnsavedChanges !== 'undefined') {
+                window.UnsavedChanges.check();
+            }
         });
+
+        // Register with unsaved changes detection
+        if (typeof window.UnsavedChanges !== 'undefined') {
+            window.UnsavedChanges.registerSelect2('{{$id}}');
+        }
     ">
     @php
 
@@ -22,7 +33,7 @@
             @if(empty(trim($option)))
                 @continue
             @endif
-            <option @if($option == $value)) selected @endif>{{$option}}</option>
+            <option @if($option == $value) selected @endif>{{$option}}</option>
         @endforeach
     </select>
     {{$slot}}

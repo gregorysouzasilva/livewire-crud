@@ -5,10 +5,21 @@ x-data="{}" x-init="
         allowClear: true,
         placeholder: 'Select'
     });
+
     $('#{{$field}}').on('change', function (e) {
-        var data = $('#{{$field}}').select2('val');
-        $wire.set('{{$wirePrefix}}{{$field}}', data);
-    });
+            var data = $('#{{$field}}').select2('val');
+            $wire.set('{{$wirePrefix}}{{$field}}', data);
+
+            // Directly call unsaved changes check
+            if (typeof window.UnsavedChanges !== 'undefined') {
+                window.UnsavedChanges.check();
+            }
+        });
+
+        // Register with unsaved changes detection
+        if (typeof window.UnsavedChanges !== 'undefined') {
+            window.UnsavedChanges.registerSelect2('{{$field}}');
+        }
 ">
 @php
 $options = config('types.countries');
