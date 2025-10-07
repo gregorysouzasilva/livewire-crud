@@ -4,6 +4,6 @@
         clearIncomplete: true,
     }).mask('#{{$field}}');" 
 class="form-floating">
-    <input type="text" class="form-control {{$inputClass ?? ''}} @if(!empty($disabled))form-control-solid @endif" wire:model.blur="{{$wirePrefix}}{{$field ?? ''}}" id="{{$wirePrefix}}{{$field}}" @if(!empty($disabled))disabled @endif/>
+    <input type="text" class="form-control {{$inputClass ?? ''}} @if(!empty($disabled))form-control-solid @endif" wire:model.blur="{{$wirePrefix}}{{$field ?? ''}}" id="{{$wirePrefix}}{{$field}}" @if(!empty($disabled))disabled @endif @if(!empty($readOnly))readonly @endif/>
     {{$slot}}
 </div> 

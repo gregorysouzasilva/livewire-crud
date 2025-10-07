@@ -6,7 +6,7 @@
     @foreach(explode(',', $validations ?? '') as $validation)
         .{{$validation}},
     @endforeach
-    ">
+    " @if(!empty($disabled))disabled @endif @if(!empty($readOnly))disabled @endif>
     <div wire:loading wire:target="{{$wirePrefix.$field}}">Uploading...</div>
     {{-- @error("$wirePrefix$field") <span class="invalid-feedback" style="display: block">@lang($message)</span>@enderror --}}
 </div>

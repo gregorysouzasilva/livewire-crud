@@ -24,7 +24,7 @@
 ">
 @php($select = (object)$options)
 
-    <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" multiple style="height: 120px">
+    <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" multiple style="height: 120px" @if(!empty($disabled) || !empty($readOnly))disabled @endif>
         <option></option>
 
         @foreach ($options as $ind => $option)

@@ -9,6 +9,10 @@
     x-init="
     ClassicEditor.create(document.querySelector('#{{$id}}'))
         .then( function(editor){
+            @if(!empty($disabled) || !empty($readOnly))
+            editor.enableReadOnlyMode('{{$id}}');
+            @endif
+
             editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
                 if ( !isFocused ) {
                     $wire.set('{{$wirePrefix . $field}}', editor.getData())

@@ -20,7 +20,7 @@
         window.UnsavedChanges.registerSelect2('{{$field}}');
     }
 ">
-<select class="form-select {{$inputClass ?? ''}}"  id="{{$wirePrefix}}{{$field}}">
+<select class="form-select {{$inputClass ?? ''}}"  id="{{$wirePrefix}}{{$field}}" @if(!empty($disabled) || !empty($readOnly))disabled @endif>
     <option></option>
     @php($select = (object)$options)
     @foreach (\DB::table($select->tabela)->get() as $option)

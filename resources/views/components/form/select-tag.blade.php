@@ -27,7 +27,7 @@
 
     @endphp
 
-        <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" @if(!empty($disabled))disabled @endif @if(!empty($multiple)) multiple @endif>
+        <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" @if(!empty($disabled) || !empty($readOnly))disabled @endif @if(!empty($multiple)) multiple @endif>
             <option></option>
         @foreach ($options as $ind => $option)
             @if(empty(trim($option)))

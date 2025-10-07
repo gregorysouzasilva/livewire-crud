@@ -25,7 +25,7 @@ x-data="{}" x-init="
 $options = config('types.countries');
 @endphp
 
-<select class="form-select {{$inputClass ?? ''}}"  id="{{$wirePrefix}}{{$field}}" @if(!empty($disabled))disabled @endif>
+<select class="form-select {{$inputClass ?? ''}}"  id="{{$wirePrefix}}{{$field}}" @if(!empty($disabled) || !empty($readOnly))disabled @endif>
         <option></option>
     @foreach ($options as $option)
         @if(empty(trim($option)))

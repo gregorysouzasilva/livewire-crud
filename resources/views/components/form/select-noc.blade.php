@@ -29,7 +29,7 @@
         }
     ">
 
-        <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}">
+        <select class="form-select {{$inputClass ?? ''}}"  id="{{$id}}" @if(!empty($disabled) || !empty($readOnly))disabled @endif>
             @if(!empty($value))
             <option selected>{{$value ?? ''}}</option>
             @endif
