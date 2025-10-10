@@ -99,7 +99,7 @@ class Crud extends BaseComponent
     public function render()
     {
         $this->convertBooleanFilters();
-        if (!$this->redirects()) {
+        if (!$this->redirects() && $this->showForm == false) {
             $this->loadData($this->limit);
         }
         $this->loadTable();
