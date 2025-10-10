@@ -32,7 +32,7 @@ trait ActionConfirmations
         }
         $method = $array[0];
         $id = $array[1];
-        $model = $this->modelClass::findOrFail($id);
+        $model = $this->modelClass::withTrashed()->findOrFail($id);
  
         if (method_exists($model, $method)) {
             $this->canAction($method, $model);
