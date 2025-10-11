@@ -15,7 +15,9 @@
                 </td>
             @endforeach
             <td 
-                @if(!empty($item->created_at)) title="{{Carbon\Carbon::parse($item->created_at, 'UTC')->setTimezone('America/Vancouver');}} ({{$item->getKey()}})" @endif
+                @if(!empty($item->created_at) || !empty($item->updated_at)) 
+                    title="@if(!empty($item->created_at))Created: {{Carbon\Carbon::parse($item->created_at, 'UTC')->setTimezone('America/Vancouver')}}@endif@if(!empty($item->created_at) && !empty($item->updated_at)) | @endif@if(!empty($item->updated_at))Updated: {{Carbon\Carbon::parse($item->updated_at, 'UTC')->setTimezone('America/Vancouver')}}@endif ({{$item->getKey()}})" 
+                @endif
                 class="d-md-table-cell d-block">
                 @include('crud::livewire.table.' . '_table_buttons')
             </td>
