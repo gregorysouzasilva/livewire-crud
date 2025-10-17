@@ -32,7 +32,13 @@ trait ActionConfirmations
         }
         $method = $array[0];
         $id = $array[1];
-        $model = $this->modelClass::withTrashed()->findOrFail($id);
+        
+        // Check if model uses SoftDeletes trait before calling withTrashed()
+        $query = $this->modelClass::query();
+        if (method_exists($this->modelClass, 'withTrashed')) {
+            $query = $query->withTrashed();
+        }
+        $model = $query->findOrFail($id);
  
         if (method_exists($model, $method)) {
             $this->canAction($method, $model);
