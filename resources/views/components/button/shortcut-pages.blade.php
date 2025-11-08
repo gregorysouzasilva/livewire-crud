@@ -3,7 +3,7 @@
 <button type="button" class="btn btn-light btn-active-primary me-3"
     data-kt-menu-trigger="click"
     data-kt-menu-placement="bottom-start">
-    <span class="svg-icon svg-icon-5 rotate-180"><i class="{{$icon}}"></i></span>@lang($label)
+    <span class="svg-icon svg-icon-5"><i class="{{$icon}}"></i></span>@lang($label)
 </button>
 <!--end::Trigger-->
 
