@@ -100,5 +100,5 @@
     x-ref="{{$id}}"
     wire:model.debounce.9999999ms="{{$wirePrefix}}{{$field ?? ''}}"
     id='{{$id}}'
->{!! $value !!}.....
+>{!! $value !!}
 </div>
