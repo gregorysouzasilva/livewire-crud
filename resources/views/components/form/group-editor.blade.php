@@ -6,6 +6,7 @@ $disabled = $disabled ?? 0;
 <div class="mb-4 col-{{$width ?? 4}}" id='div-{{$wirePrefix}}-{{$field}}' wire:ignore>
     <label for="{{$field}}">@lang($label)</label>
         <x-dynamic-component component="{{'form.' . $type}}" :field="$field" :options="$options ?? []" :wirePrefix="$wirePrefix" :value="$value ?? []" :disabled="$disabled ?? false">
+            {{ $slot }}
         </x-dynamic-component>
         @error("$wirePrefix$field") <span class="invalid-feedback" style="display: block">@lang($message)</span>@enderror
 </div>
