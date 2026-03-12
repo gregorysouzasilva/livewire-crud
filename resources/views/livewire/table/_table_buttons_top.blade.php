@@ -59,40 +59,63 @@
 @endif
 {{-- Custom top buttons --}}
 @foreach($pageInfo['top_buttons'] ?? [] as $button)
-    @php($button = (object)$button)
-    @if(
-        ($button->show ?? true) &&
-        (empty($button->role) || (auth()->user() && auth()->user()->hasRole($button->role)))
-    )
+    @php
+        $button = (object) $button;
+        $buttonCanShow = ($button->show ?? true)
+            && (empty($button->role) || (auth()->user() && auth()->user()->hasRole($button->role)));
+    @endphp
+
+    @if($buttonCanShow)
         @if(!empty($button->action))
-            <button type="button"
+            <button
+                type="button"
                 wire:click="{{ $button->action }}"
-                @if(!empty($button->confirm))wire:confirm="{{ $button->confirm }}"@endif
-                @if(!empty($button->loading_target))wire:loading.attr="disabled" wire:target="{{ $button->loading_target }}"@endif
-                @if(!empty($button->disabled) || !empty($button->loading_when))disabled@endif
-                class="btn {{ $button->class ?? 'btn-light' }} me-3">
+                class="btn {{ $button->class ?? 'btn-light' }} me-3"
+                @if(!empty($button->confirm))
+                    wire:confirm="{{ $button->confirm }}"
+                @endif
+                @if(!empty($button->loading_target))
+                    wire:loading.attr="disabled"
+                    wire:target="{{ $button->loading_target }}"
+                @endif
+                @if(!empty($button->disabled) || !empty($button->loading_when))
+                    disabled
+                @endif
+            >
                 @if(!empty($button->loading_when))
-                    {{-- Server-side loading: job is already running --}}
-                    @if(!empty($button->loading_icon))<i class="{{ $button->loading_icon }}"></i>@endif
+                    @if(!empty($button->loading_icon))
+                        <i class="{{ $button->loading_icon }}"></i>
+                    @endif
                     @lang($button->loading_label ?? ($button->label ?? ''))
                 @elseif(!empty($button->loading_target))
-                    {{-- Client-side loading: swap content during Livewire request --}}
                     <span wire:loading.remove wire:target="{{ $button->loading_target }}">
-                        @if(!empty($button->icon))<i class="{{ $button->icon }}"></i>@endif
+                        @if(!empty($button->icon))
+                            <i class="{{ $button->icon }}"></i>
+                        @endif
                         @lang($button->label ?? '')
                     </span>
                     <span wire:loading wire:target="{{ $button->loading_target }}" style="display:none">
-                        @if(!empty($button->loading_icon))<i class="{{ $button->loading_icon }}"></i>@endif
+                        @if(!empty($button->loading_icon))
+                            <i class="{{ $button->loading_icon }}"></i>
+                        @endif
                         @lang($button->loading_text ?? ($button->label ?? ''))
                     </span>
                 @else
-                    @if(!empty($button->icon))<i class="{{ $button->icon }}"></i>@endif
+                    @if(!empty($button->icon))
+                        <i class="{{ $button->icon }}"></i>
+                    @endif
                     @lang($button->label ?? '')
                 @endif
             </button>
         @else
-            <a href="{{ $button->url ?? '#' }}" class="btn {{ $button->class ?? 'btn-light' }} me-3" target="{{ $button->target ?? '_self' }}">
-                @if(!empty($button->icon))<i class="{{ $button->icon }}"></i>@endif
+            <a
+                href="{{ $button->url ?? '#' }}"
+                class="btn {{ $button->class ?? 'btn-light' }} me-3"
+                target="{{ $button->target ?? '_self' }}"
+            >
+                @if(!empty($button->icon))
+                    <i class="{{ $button->icon }}"></i>
+                @endif
                 @lang($button->label ?? '')
             </a>
         @endif
