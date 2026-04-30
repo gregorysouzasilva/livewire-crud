@@ -187,14 +187,14 @@ trait ModelActionsTrait
         //$this->clearForm();
     }
 
-    public function onPageComplete($subType)
+    public function onPageComplete()
     {
         $this->canAction('complete');
 
         $this->contact->statesRelation()->create(
             [
             'stateble_type' => 'Member',
-            'sub_type' => $subType,
+            'sub_type' => class_basename($this->model),
             'user_id' => auth()->user()->id,
             'status' => 'completed',
             ]
@@ -202,7 +202,7 @@ trait ModelActionsTrait
 
         $this->contact->refresh();
     }
-    public function onPageDismiss($subType)
+    public function onPageDismiss()
     {
         if (!hasRole('consultant')) {
             abort(403, 'Unauthorized action.');
@@ -211,7 +211,7 @@ trait ModelActionsTrait
         $this->contact->statesRelation()->create(
             [
             'stateble_type' => 'Member',
-            'sub_type' => $subType,
+            'sub_type' => class_basename($this->model),
             'user_id' => auth()->user()->id,
             'status' => 'dismissed',
             ]
@@ -220,7 +220,7 @@ trait ModelActionsTrait
         $this->contact->refresh();
     }
 
-    public function onPageReopen($subType)
+    public function onPageReopen()
     {
         if (!hasRole('consultant')) {
             abort(403, 'Unauthorized action.');
@@ -229,7 +229,7 @@ trait ModelActionsTrait
         $this->contact->statesRelation()->create(
             [
             'stateble_type' => 'Member',
-            'sub_type' => $subType,
+            'sub_type' => class_basename($this->model),
             'user_id' => auth()->user()->id,
             'status' => 'open',
             ]
