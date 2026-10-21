@@ -11,14 +11,21 @@
     ],
     "homepage": "https://github.com/gregorysouzasilva/livewire-crud",
     "keywords": ["Laravel", "LivewireCrud"],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/gregorysouzasilva/livewire"
+        }
+    ],
     "require": {
-        "laravel/framework": "^8.12",
-        "livewire/livewire": "^2.8",
-        "spatie/laravel-permission": "^4.0|^5.0"
+        "php": "^7.4 || >=8.0 <8.5",
+        "laravel/framework": "^8.12 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "livewire/livewire": "2.x-dev@dev",
+        "spatie/laravel-permission": "^4.0|^5.0|^6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~9.0",
-        "orchestra/testbench": "~6"
+        "phpunit/phpunit": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "orchestra/testbench": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0"
     },
     "autoload": {
         "psr-4": {
